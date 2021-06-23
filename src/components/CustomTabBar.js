@@ -5,6 +5,7 @@ import CheckIcon from '../assets/check_box.svg';
 import TodayIcon from '../assets/calendar_today.svg';
 import AccountIcon from '../assets/account_circle.svg';
 import MessageIcon from '../assets/mark_as_unread.svg';
+import { UserContext } from '../context/UserContext';
 
 
 const TabArea = styled.View`
@@ -33,15 +34,15 @@ const TabItemCenter = styled.TouchableOpacity`
 
 
 
-// const AvatarIcon = styled.Image`
-//   width: 24px;
-//   height: 24px;
-//   border-radius: 12px;
-// `;
+const AvatarIcon = styled.Image`
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+`;
 
 export default ({ state, navigation }) => {
 
-  // const { state: user } = useContext(UserContext);
+  const { state: user } = useContext(UserContext);
 
   const goTo = (screenName) => {
     navigation.navigate(screenName);
@@ -70,11 +71,11 @@ export default ({ state, navigation }) => {
       </TabItem>
 
       <TabItem onPress={() => goTo('Profile')}>
-        {/* {user.avatar != '' ?
-          <AvatarIcon source={{ uri: user.avatar }} /> :
-          <AccountIcon style={{ opacity: state.index === 4 ? 1 : 0.5 }} width="24" height="24" fill="#FFFFFF" />
-        } */}
-        <AccountIcon   width="24" height="24"  fill={state.index === 4 ?  "#51DE9F" : "#FFFFFF"} />
+        {user.avatar != '' ?
+          <AvatarIcon style={{ opacity: state.index === 4 ? 1 : 0.5 }}  source={{ uri: 'data:image/png;base64,'+user.avatar }} /> :
+          <AccountIcon width="24" height="24" fill={state.index === 4 ?  "#51DE9F" : "#FFFFFF"}/>
+        }
+        {/* <AccountIcon   width="24" height="24"  fill={state.index === 4 ?  "#51DE9F" : "#FFFFFF"} /> */}
       </TabItem>
     </TabArea>
   );

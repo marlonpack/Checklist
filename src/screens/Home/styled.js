@@ -13,7 +13,7 @@ export const Scroller = styled.ScrollView`
 
 export const HeaderArea = styled.View`
   align-items: center;
-  background-color: aliceblue;
+  /* background-color: aliceblue; */
   height: 90px;
   margin: 20px 0;
   justify-content: center;

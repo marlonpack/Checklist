@@ -31,15 +31,15 @@ export const LogoArea = styled.Text`
   color: #000;
 `;
 
-export const SignMessageButton = styled.TouchableOpacity`
+export const SignMessageButton = styled.Text`
   font-size: 60px;
+  color: #FFF;
   margin: 20px 0;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  text-align: center;
 `;
 
 export const  SignMessageButtonText = styled.Text`
   font-size: 16px;
-  color: red;
+  color: #000;
 `;

@@ -1,20 +1,45 @@
-export const API_URL = 'http://192.168.0.99:71/GLOBAL/Controller/';
+const API_URL = 'http://192.168.0.99:71/GLOBAL/Controller/';
 
-export function USER_DATE(session, id) {
-  return {
-    url: API_URL + 'CCPP/Employee.php?AUTH=' + session + '&app_id=5&id=' + id,
-    options: {
-      method: 'GET',
-    },
-  };
-}
+export default{
+  VERSION:async()=>{
+    const req= await fetch(`${API_URL}/CCPP/AppVersion.php?id=13`,{
+      method:'GET',
+    });
+    const json = await req.json();
+    const version= json.data[0].version;
+    const appVersion = '0.1a';
+    if(version !== appVersion){
+      return 'Versão desatualizada, versão atual'+json.data[0].version +'versão da sua aplicação'+ appVersion;
+    } 
+    return null;
+  },
 
-export function TOKEN_POST(body) {
-  return {
-    url: API_URL + 'CCPP/Login.php?login&app_id=5',
-    options: {
-      method: 'POST',
+  USER_PHOTO:async(session,id)=>{
+    const req= await fetch(`${API_URL}CCPP/EmployeePhoto.php?AUTH=${session}&app_id=13&id=${id}`,{
+      method:'GET',
+    });
+    const json = await req.json();
+    return json;
+  },
+
+  TOKEN_POST:async(body)=>{
+    const req= await fetch(`${API_URL}CCPP/Login.php?login&app_id=13`,{
+      method:'POST',
       body: JSON.stringify(body),
-    },
-  };
+    });
+    const json = await req.json();
+    return json;
+  },
+
+  PASSWORD_PATTERN:async(body)=>{
+    const req= await fetch(`${API_URL}CCPP/Login.php?login&app_id=13`,{
+      method:'PUT',
+      body: JSON.stringify(body),
+    });
+    const json = await req.json();
+    return json;
+  }
+  
+
 }
+
