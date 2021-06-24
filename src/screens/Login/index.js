@@ -7,6 +7,7 @@ import LockIcon from '../../assets/lock.svg';
 import PersonIcon from '../../assets/person.svg';
 import Api from '../../Api';
 import { UserContext } from '../../context/UserContext';
+import Loading from '../../components/Loading';
 
 export default () => {
   const { dispatch: userDispatch } = useContext(UserContext);
@@ -14,15 +15,33 @@ export default () => {
   const [userField, setUserField] = useState('');
   const [passwordField, setPasswordField] = useState('');
   const [passwordChange, setPasswordChange] = useState(false);
+  const [loading, setLading] = useState(false);
 
 
   const handleClick = async () => {
     if (userField != '' && passwordField != '') {
+      setLading(true)
       let json = await Api.TOKEN_POST({ "user": userField, "password": passwordField })
+      
       if (!json.error) {
+
+        userDispatch({
+          type: 'setSession',
+          payload: {
+            session: json.data.session
+          }
+        })
+        
+        userDispatch({
+          type: 'setUserId',
+          payload: {
+            userId: json.data.id
+          }
+        })
+
         let userPhoto = await Api.USER_PHOTO(json.data.session, json.data.id)
 
-        if (!json.error) {
+        if (!userPhoto.error) {
 
           userDispatch({
             type: 'setAvatar',
@@ -30,7 +49,6 @@ export default () => {
               avatar: userPhoto.photo
             }
           })
-
           navigation.reset({ routes: [{ name: 'MainTab' }] })
 
         } else {
@@ -55,6 +73,7 @@ export default () => {
     } else {
       alert('digite seu nome de usuário e a senha')
     }
+    setLading(false)
   }
 
   const handleClickChangePassword = () => {
@@ -67,6 +86,7 @@ export default () => {
   return (
     <Container>
       <LogoArea>CLPP</LogoArea>
+       {loading&&<Loading/>}
       <InputArea>
         <Input IconSvg={PersonIcon} placeholder="digite seu login" value={userField} onChangeText={t => setUserField(t)} />
         <Input IconSvg={LockIcon} placeholder="digite sua senha" value={passwordField} onChangeText={t => setPasswordField(t)} password={true} />

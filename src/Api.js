@@ -38,8 +38,23 @@ export default{
     });
     const json = await req.json();
     return json;
+  },
+
+  GET_CHECKLIST_HOME:async(id)=>{
+    const req = await fetch(`${API_URL}CLPP/Checklist.php?userId=${id}`,{
+      method:'GET',
+    });
+    const json = await req.json();
+    return json;
+  },
+
+  GET_CHECKLIST_ALL:async(id)=>{
+    const req = await fetch(`${API_URL}CLPP/Checklist.php?all&userId=${id}`,{
+      method:'GET',
+    });
+    const json = await req.json();
+    return json;
   }
   
-
 }
 

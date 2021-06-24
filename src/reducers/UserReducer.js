@@ -1,7 +1,8 @@
 export const initialState = {
   avatar: '',
   session: '',
-  userName: ''
+  userName: '',
+  userId: ''
 };
 
 export const UserReducer = (state, action) => {
@@ -14,6 +15,9 @@ export const UserReducer = (state, action) => {
       break;
     case 'setUserName':
       return { ...state, userName: action.payload.userName };
+      break;
+    case 'setUserId':
+      return { ...state, userId: action.payload.userId };
       break;
     default:
       return state;

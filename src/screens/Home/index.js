@@ -1,39 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View } from 'react-native';
-import { Container, HeaderArea, SearchArea, ListArea, Scroller, TextLogo } from './styled';
+import { Container, HeaderArea, SearchArea, ListArea, Scroller, TextLogo, Input, ButtonSearch } from './styled';
 import { RefreshControl } from 'react-native';
-import Input from '../../components/Input';
+// import Input from '../../components/Input';
 import TableItem from '../../components/TableItem';
 import SearchIcon from '../../assets/search';
+import { UserContext } from '../../context/UserContext';
+import Api from '../../Api';
+import Loading from '../../components/Loading';
+
 
 
 export default () => {
   const [refreshing, setRefreshing] = useState(true);
   const [search, setSearch] = useState('');
+  const [listFilter, setListFilter] = useState([]);
+  const { state } = useContext(UserContext);
+  const [checklistDate, useChecklistDate] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   const onRefresh = () => {
     setRefreshing(false);
   }
-  const data = {
-    "checkName": "Teste",
-    "init": "21/06/2021",
-    "final": "30/07/2021",
-    "Question": 10,
-    "checkUser": "marlon"
+
+  const handleClickSearch=()=>{
+    setLoading(true)
+    let filter = checklistDate.filter((data)=>
+      String(data.description).toLowerCase().includes(search)||
+      String(data.data_init).toLowerCase().includes(search)||
+      String(data.data_final).toLowerCase().includes(search)||
+      String(data.creator_name).toLowerCase().includes(search)
+    )
+    setListFilter([...filter])
+    setLoading(false)
   }
+
+  useEffect(async () => {
+    setLoading(true)
+    let res = await Api.GET_CHECKLIST_HOME(parseInt(state.userId))
+    if (!res["error"]) {
+      useChecklistDate(res.data)
+    } else {
+      alert(res['message'])
+    }
+    setLoading(false)
+  }, [])
+
   
+  const handleClickQuestion =()=>{
+
+  }
+
+
   return (
     <Container>
       <Scroller RefreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+        {loading&& <Loading/>}
         <HeaderArea>
           <TextLogo>CLPP</TextLogo>
         </HeaderArea>
-        {/* <SearchArea> */}
-        <Input IconSvg={SearchIcon} placeholder="digite o nome da checklist" value={search} onChangeText={t => setSearch(t)} />
-        {/* </SearchArea> */}
+        <SearchArea>
+          <Input placeholder="digite o nome da checklist" value={search} onChangeText={t => setSearch(t)} />
+          <ButtonSearch onPress={handleClickSearch}>
+            <SearchIcon />
+          </ButtonSearch>
+        </SearchArea>
         <ListArea>
-          <TableItem data={data} />
+          {listFilter.length>0?
+          listFilter.map(item => (
+            <TableItem data={item} key={item.id} onPress={handleClickQuestion}/>
+          )):
+          checklistDate.map(item => (
+            <TableItem data={item} key={item.id} onPress={handleClickQuestion}/>
+          ))}
         </ListArea>
       </Scroller>
     </Container>

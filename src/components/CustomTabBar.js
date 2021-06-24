@@ -21,15 +21,9 @@ const TabItem = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const TabItemCenter = styled.TouchableOpacity`
-  width: 70px;
-  height: 70px;
-  justify-content: center;
-  background-color: #FFF;
-  align-items: center;
-  border-radius: 35px;
-  border: 3px solid #4EADBE;
-  margin-top: -20px;
+const PageName = styled.Text`
+  font-size: 10px;
+  color: #FFF;
 `;
 
 
@@ -55,27 +49,31 @@ export default ({ state, navigation }) => {
     <TabArea>
 
       <TabItem onPress={() => goTo('Home')}>
-        <HomeIcon  width="24" height="24" fill={state.index === 0 ?  "#51DE9F" : "#FFFFFF"} />
+        <HomeIcon width="24" height="24" fill={state.index === 0 ? "#51DE9F" : "#FFFFFF"} />
+        <PageName>Home</PageName>
       </TabItem>
 
       <TabItem onPress={() => goTo('Checklist')}>
-        <CheckIcon   width="24" height="24" fill={state.index === 1 ?  "#51DE9F" : "#FFFFFF"} />
+        <CheckIcon width="24" height="24" fill={state.index === 1 ? "#51DE9F" : "#FFFFFF"} />
+        <PageName>Checklist</PageName>
       </TabItem>
 
       <TabItem onPress={() => goTo('Calendar')}>
-        <TodayIcon  width="24" height="24" fill={state.index === 2 ?  "#51DE9F" : "#FFFFFF"} />
+        <TodayIcon width="24" height="24" fill={state.index === 2 ? "#51DE9F" : "#FFFFFF"} />
+        <PageName>Agenda</PageName>
       </TabItem>
 
       <TabItem onPress={() => goTo('Message')}>
-        <MessageIcon  width="24" height="24" fill={state.index === 3 ?  "#51DE9F" : "#FFFFFF"} />
+        <MessageIcon width="24" height="24" fill={state.index === 3 ? "#51DE9F" : "#FFFFFF"} />
+        <PageName>Mensagem</PageName>
       </TabItem>
 
       <TabItem onPress={() => goTo('Profile')}>
         {user.avatar != '' ?
-          <AvatarIcon style={{ opacity: state.index === 4 ? 1 : 0.5 }}  source={{ uri: 'data:image/png;base64,'+user.avatar }} /> :
-          <AccountIcon width="24" height="24" fill={state.index === 4 ?  "#51DE9F" : "#FFFFFF"}/>
+          <AvatarIcon style={{ opacity: state.index === 4 ? 1 : 0.5 }} source={{ uri: 'data:image/png;base64,' + user.avatar }} /> :
+          <AccountIcon width="24" height="24" fill={state.index === 4 ? "#51DE9F" : "#FFFFFF"} />
         }
-        {/* <AccountIcon   width="24" height="24"  fill={state.index === 4 ?  "#51DE9F" : "#FFFFFF"} /> */}
+        <PageName>Perfil</PageName>
       </TabItem>
     </TabArea>
   );

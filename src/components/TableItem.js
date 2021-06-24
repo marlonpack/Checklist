@@ -31,15 +31,15 @@ const CheckName = styled.Text`
 
 
 
-export default ({data})=>{
-  return(
-    <Area>
-      <CheckName>{data.checkName}</CheckName>
+export default ({ data, disabled, onPress }) => {
+  return (
+    <Area disabled={disabled} onPress={onPress}>
+      <CheckName>{data.description}</CheckName>
       <InfoArea>
-      <UserName>Validade: {data.init} a {data.final}</UserName>
-      <UserName>Questões: {data.Question}</UserName>
+        <UserName>{data.data_init != null && data.data_final != null ? `Validade: ${data.data_init} a ${data.data_final}` : `Sem validade`}</UserName>
+        <UserName>Questões: {data.count_question}</UserName>
       </InfoArea>
-      <UserName>criador por: {data.checkUser}</UserName>
+      <UserName>criador por: {data.creator_name}</UserName>
     </Area>
   )
 

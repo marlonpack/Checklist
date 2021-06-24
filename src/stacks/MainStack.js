@@ -9,10 +9,10 @@ const Stack = createStackNavigator();
 
 
 export default ()=>(
-  // <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
-  <Stack.Navigator initialRouteName="Login"  screenOptions={{headerShown: false}}>
-    <Stack.Screen name="Login" component={Login}/>
-    <Stack.Screen name="ChangePassword" component={ChangePassword}/>
+  <Stack.Navigator  screenOptions={{headerShown: false}}>
+  {/* <Stack.Navigator initialRouteName="Login"  screenOptions={{headerShown: false}}> */}
+    {/* <Stack.Screen name="Login" component={Login}/>
+    <Stack.Screen name="ChangePassword" component={ChangePassword}/> */}
     <Stack.Screen name="MainTab" component={MainTab}/>
   </Stack.Navigator>
 )

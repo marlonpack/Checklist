@@ -19,16 +19,16 @@ export const HeaderArea = styled.View`
   justify-content: center;
 `;
 
-// export const SearchArea = styled.View`
-//   height: 60px;
-//   border-radius: 30px;
-//   flex-direction: row;
-//   align-items: center;
-//   padding-left: 20px;
-//   padding-right: 20px;
-//   margin-top: 30px;
-//   background-color: azure;
-// `;
+export const SearchArea = styled.View`
+  height: 60px;
+  border-radius: 30px;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 30px;
+  border: #000000 solid 1px;
+`;
 
 
 export const ListArea = styled.View`
@@ -38,9 +38,16 @@ export const ListArea = styled.View`
   /* border: solid 1px #3B6895; */
 `;
 
+export const Input = styled.TextInput`
+  flex: 1;
+  font-size: 16px;
+  /* color: #268596; */
+  margin-left: 10px;
+`;
 
 export const TextLogo = styled.Text`
   font-size: 36px;
 `;
 
-
+export const ButtonSearch = styled.TouchableOpacity`
+`;
