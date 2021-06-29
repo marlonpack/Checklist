@@ -12,6 +12,7 @@ import Loading from '../../components/Loading';
 
 
 
+
 export default () => {
   const [refreshing, setRefreshing] = useState(true);
   const [search, setSearch] = useState('');
@@ -19,6 +20,7 @@ export default () => {
   const { state } = useContext(UserContext);
   const [checklistDate, useChecklistDate] = useState([]);
   const [loading, setLoading] = useState(false)
+  const navigation = useNavigation();
 
   const onRefresh = () => {
     setRefreshing(false);
@@ -48,8 +50,9 @@ export default () => {
   }, [])
 
   
-  const handleClickQuestion =()=>{
-
+  const handleClickQuestion =(item)=>{
+    // console.log('item',item)
+    navigation.navigate('Question',{item:item})
   }
 
 
@@ -69,10 +72,10 @@ export default () => {
         <ListArea>
           {listFilter.length>0?
           listFilter.map(item => (
-            <TableItem data={item} key={item.id} onPress={handleClickQuestion}/>
+            <TableItem data={item} key={item.id} onPress={()=>handleClickQuestion(item)}/>
           )):
           checklistDate.map(item => (
-            <TableItem data={item} key={item.id} onPress={handleClickQuestion}/>
+            <TableItem data={item} key={item.id} onPress={()=>handleClickQuestion(item)}/>
           ))}
         </ListArea>
       </Scroller>

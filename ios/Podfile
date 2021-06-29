@@ -14,6 +14,8 @@ target 'clpp' do
 
   pod 'react-native-signature-capture', :path => '../node_modules/react-native-signature-capture'
 
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
+
   target 'clppTests' do
     inherit! :complete
     # Pods for testing
