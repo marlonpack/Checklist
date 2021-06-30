@@ -55,8 +55,8 @@ export default ({question}) => {
   const dateFormat=(date)=>{
     let dateInit = new Date(date);
     let year = dateInit.getFullYear();
-    let month = dateInit.getMonth()<9?'0'+dateInit.getMonth():dateInit.getMonth();
-    let day = dateInit.getDay()<9? '0'+dateInit.getDay(): dateInit.getDay();
+    let month = (dateInit.getMonth()+1)<9?'0'+(dateInit.getMonth()+1):dateInit.getMonth()+1;
+    let day = dateInit.getDate()<9? '0'+dateInit.getDate(): dateInit.getDate();
     return `${day}/${month}/${year}`;
   }
   // return (

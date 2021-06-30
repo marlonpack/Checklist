@@ -54,6 +54,14 @@ export default{
     });
     const json = await req.json();
     return json;
+  },
+
+  GET_QUESTIONS:async(id)=>{
+    const req = await fetch(`${API_URL}CLPP/Question.php?id=${id}`,{
+      method:'GET'
+    });
+    const json = await req.json();
+    return json;
   }
   
 }

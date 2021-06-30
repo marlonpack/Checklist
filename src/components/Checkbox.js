@@ -12,15 +12,17 @@ export const QuestionText = styled.Text`
   margin-bottom: 5px;
 `;
 
-export default ({question}) => {
+export default ({ question, option }) => {
   const [groupValues, setGroupValues] = React.useState([]);
-
+  const [options, setOptions] = React.useState(option)
+  // console.log(options)
   return (
     <Container>
       <QuestionText>{question}</QuestionText>
       <Checkbox.Group onChange={setGroupValues} value={groupValues} >
-        <Checkbox accessibilityLabel="This is a checkbox" value="one" my={1}>One</Checkbox>
-        <Checkbox accessibilityLabel="This is a checkbox" value="two" my={1}>Two</Checkbox>
+        {/* <Checkbox accessibilityLabel="This is a checkbox" value="one" my={1}>One</Checkbox> */}
+        {Object.values(options).map((item, index) => <Checkbox key={index} accessibilityLabel="This is a checkbox" value={item} my={1}>{item}</Checkbox>)}
+
       </Checkbox.Group>
     </Container>
   )

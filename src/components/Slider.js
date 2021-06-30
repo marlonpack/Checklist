@@ -33,6 +33,8 @@ export default ({question})=>{
       <Box mx={5} w="90%">
         <Slider
           defaultValue={0}
+          minValue={0}
+          maxValue={100}
           colorScheme="red"
           onChange={(v) => {
             setOnChangeValue(Math.floor(v))

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
+import SignatureCapture from './SignatureCapture';
 
 export const Container = styled.View`
   flex: 1;
@@ -26,12 +27,12 @@ export const TextArea = styled.Text`
   font-size: 18px;
 `;
 
-export default ({question, answer})=>{
+export default ({question, answer, onPress})=>{
 
   return(
   <Container>
   <QuestionText>{question}</QuestionText>
-  <ButtonArea>
+  <ButtonArea onPress={onPress}>
     <TextArea>
      {answer}
     </TextArea>

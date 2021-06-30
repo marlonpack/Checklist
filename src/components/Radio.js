@@ -20,13 +20,13 @@ export default ({question}) => {
     <Container>
       <QuestionText> {question}</QuestionText>
       <Radio.Group defaultValue="1" name="myRadioGroup" onChange={(nextValue) => {setValue(nextValue)}}>
-        <Radio value="1" my={1}>
+        <Radio accessibilityLabel="This is a Radio" value="1" my={1}>
           First
         </Radio>
-        <Radio value="2" my={1}>
+        <Radio accessibilityLabel="This is a Radio" value="2" my={1}>
           Second
         </Radio>
-        <Radio value="3" my={1}>
+        <Radio accessibilityLabel="This is a Radio" value="3" my={1}>
           Third
         </Radio>
       </Radio.Group>

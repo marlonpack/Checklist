@@ -1,9 +1,11 @@
 import React,{useRef} from 'react';
 import { Text, View, TouchableHighlight, StyleSheet } from 'react-native';
 import SignatureCapture from 'react-native-signature-capture';
+import { useNavigation } from '@react-navigation/native';
 
 export default () => {
   const sign = useRef(null);
+  const nav = useNavigation();
 
   const SaveSign = ()=>{
    sign.current.saveImage()
@@ -16,6 +18,7 @@ export default () => {
 
   const OnSaveEvent = (result)=>{
     console.log(result)
+    nav.goBack();
   };
 
   const OnDragEvent = ()=>{
@@ -60,21 +63,21 @@ export default () => {
   );
 }
 
-const styles = StyleSheet.create({
-  Signature: {
-    flex: 1,
-    borderColor: '#000033',
-    borderWidth: 1,
-  },
-  buttonStyle: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 50,
-    backgroundColor: "#eeeeee",
-    margin: 10,
-  }
-});
+// const styles = StyleSheet.create({
+//   Signature: {
+//     flex: 1,
+//     borderColor: '#000033',
+//     borderWidth: 1,
+//   },
+//   buttonStyle: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     height: 50,
+//     backgroundColor: "#eeeeee",
+//     margin: 10,
+//   }
+// });
 
 const styles = StyleSheet.create({
   container: {
