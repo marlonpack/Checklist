@@ -48,7 +48,7 @@ export default () => {
               buttonNegative: 'Cancel',
             }}
             onGoogleVisionBarcodesDetected={({ barcodes }) => {
-              console.log(barcodes);
+              // console.log(barcodes);
             }}
           />
           <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>

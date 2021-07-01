@@ -21,8 +21,8 @@ export const TextButton = styled.Text`
 export const ButtonSave = styled.TouchableOpacity`
   align-items: center;
   background-color: #326744;
-  width: 100px;
-  margin: 5px auto;
+  width: 100%;
+  margin: 20px auto;
   border-radius: 36px;
 `;
 

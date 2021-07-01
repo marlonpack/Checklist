@@ -13,14 +13,15 @@ import Loading from '../../components/Loading';
 
 
 
-export default () => {
+export default ({navigation}) => {
   const [refreshing, setRefreshing] = useState(true);
   const [search, setSearch] = useState('');
   const [listFilter, setListFilter] = useState([]);
   const { state } = useContext(UserContext);
   const [checklistDate, useChecklistDate] = useState([]);
   const [loading, setLoading] = useState(false)
-  const navigation = useNavigation();
+  const nav = useNavigation();
+  const [load,setLoad] = useState(true)
 
   const onRefresh = () => {
     setRefreshing(false);
@@ -38,6 +39,8 @@ export default () => {
     setLoading(false)
   }
 
+  // console.log(navigation);
+
   useEffect(async () => {
     setLoading(true)
     let res = await Api.GET_CHECKLIST_HOME(parseInt(state.userId))
@@ -47,12 +50,16 @@ export default () => {
       alert(res['message'])
     }
     setLoading(false)
-  }, [])
+    navigation.addListener('focus', ()=>{  
+      setLoad(!load)
+
+    })
+  }, [load, navigation])
 
 
   const handleClickQuestion = (item) => {
     // console.log('item',item)
-    navigation.navigate('Question', { item: item })
+    nav.navigate('Question', { item: item })
   }
 
 

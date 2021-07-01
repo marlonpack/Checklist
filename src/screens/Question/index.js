@@ -18,11 +18,19 @@ export default ({ route, navigation }) => {
   const nav = useNavigation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  // const [load,setLoad] = useState(true)
 
+ 
   useEffect(async () => {
+    setData([])
+    setLoading(true)
     let res = await Api.GET_QUESTIONS(parseInt(route.params.item.id));
+    // console.log(route.params.item.id)
     setData(res.data)
-  }, []);
+    setLoading(false)
+    // navigation.addListener('focus', ()=>setLoad(!load))
+    // [load, navigation]
+  }, [route.params.item.id]);
 
   const handleTypeQuestion = (item) => {
     let element;
@@ -60,6 +68,7 @@ export default ({ route, navigation }) => {
   return (
     // <SafeAreaView style={{ flex: 1 }}>
       <Container>
+        {loading&&<Loading/>}
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor="rgba(0,0,0,0.07)" translucent={false} />
         <Scroller>
 

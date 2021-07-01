@@ -1,40 +1,42 @@
-import React,{useRef} from 'react';
+import React, { useRef } from 'react';
 import { Text, View, TouchableHighlight, StyleSheet } from 'react-native';
 import SignatureCapture from 'react-native-signature-capture';
 import { useNavigation } from '@react-navigation/native';
 import { Divider } from 'native-base';
 
-export default () => {
+
+export default ({ navigation }) => {
   const sign = useRef(null);
   const nav = useNavigation();
 
-  const SaveSign = ()=>{
-   sign.current.saveImage()
+ 
+  const SaveSign = () => {
+    sign.current.saveImage()
   };
-  
-  const ResetSign = ()=>{
+
+  const ResetSign = () => {
     sign.current.resetImage()
   };
 
 
-  const OnSaveEvent = (result)=>{
-    console.log(result)
-    nav.goBack();
+  const OnSaveEvent = (result) => {
+    // console.log(result)
+    navigation.goBack();
   };
 
-  const OnDragEvent = ()=>{
-    console.log('dragged')
+  const OnDragEvent = () => {
+    // console.log('dragged')
   };
 
 
 
   return (
-    <View style={{flex:1, flexDirection:"column"}}>
-    
-      <Text style={{alignItems:"center", justifyContent:"center"}}>Assinatura</Text>
-    
+    <View style={{ flex: 1, flexDirection: "column" }}>
+
+      <Text style={{ alignItems: "center", justifyContent: "center" }}>Assinatura</Text>
+
       <SignatureCapture
-        style={[{flex:1}, styles.Signature]}
+        style={[{ flex: 1 }, styles.Signature]}
         ref={sign}
         onSaveEvent={OnSaveEvent}
         onDragEvent={OnDragEvent}
@@ -47,19 +49,19 @@ export default () => {
         // backgroundColor="#ff00ff"
         viewMode={"landscape"}
       />
-    
-      <View style={{flex:1, flexDirection:"row"}}>
-    
+
+      <View style={{ flex: 1, flexDirection: "row" }}>
+
         <TouchableHighlight style={styles.buttonStyle} onPress={SaveSign}>
           <Text>Save</Text>
         </TouchableHighlight>
-    
+
         <TouchableHighlight style={styles.buttonStyle} onPress={ResetSign}>
           <Text>Reset</Text>
         </TouchableHighlight>
-    
+
       </View>
-    
+
     </View>
   );
 }

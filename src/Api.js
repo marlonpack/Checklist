@@ -45,7 +45,7 @@ export default{
       method:'GET',
     });
     const json = await req.json();
-    console.log(json)
+    // console.log(json)
     return json;
   },
 

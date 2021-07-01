@@ -5,11 +5,11 @@ import PhotoCapture from '../../components/PhotoCapture';
 
 
 export default ({ route, navigation }) => {
-  console.log(route.params.type)
+  // console.log(navigation.goBack())
   return (
     <View style={{ flex: 1 }}>
       {route.params.type == 1 ?
-        <SignatureCapture />
+        <SignatureCapture navigation={navigation}/>
         :
         <PhotoCapture />
       }
