@@ -8,7 +8,7 @@ import {
   NativeBaseProvider,
 } from "native-base";
 import styled from 'styled-components/native';
-
+import { Divider } from 'native-base';
 
 export const QuestionText = styled.Text`
   font-size: 20px;
@@ -27,6 +27,7 @@ export default ({question})=>{
   return (
     <Container >
       <QuestionText>{question}</QuestionText>
+      <Divider bgColor="#326744"  />
       <Text>Valor: {onChangeValue}</Text>
       {/* <Text>onChangeEndValue - {onChangeEndValue}</Text> */}
 

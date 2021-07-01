@@ -36,7 +36,7 @@ export default ({ data, disabled, onPress }) => {
     <Area disabled={disabled} onPress={onPress}>
       <CheckName>{data.description}</CheckName>
       <InfoArea>
-        <UserName>{data.data_init != null && data.data_final != null ? `Validade: ${data.data_init} a ${data.data_final}` : `Sem validade`}</UserName>
+        <UserName>{data.date_init != null && data.date_final != null ? `Validade: ${data.date_init} a ${data.date_final}` : `Sem validade`}</UserName>
         <UserName>Questões: {data.count_question}</UserName>
       </InfoArea>
       <UserName>criador por: {data.creator_name}</UserName>

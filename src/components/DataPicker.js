@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import { View, Button, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styled from 'styled-components/native';
+import { Divider } from 'native-base';
 
 export const Container = styled.View`
   flex: 1;
   margin: 10px 0;
+  background-color: #FFF;
+  padding: 10px;
+  /* border: 1px solid #3B6895; */
+  border-radius: 20px;
 `;
 
 export const QuestionText = styled.Text`

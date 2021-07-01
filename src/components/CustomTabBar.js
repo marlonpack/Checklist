@@ -75,6 +75,10 @@ export default ({ state, navigation }) => {
         }
         <PageName>Perfil</PageName>
       </TabItem>
+
+      {/* <TabItem onPress={() => goTo('Question')}>
+      </TabItem> */}
+
     </TabArea>
   );
 }

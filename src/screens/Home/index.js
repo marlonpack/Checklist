@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { Container, HeaderArea, SearchArea, ListArea, Scroller, TextLogo, Input, ButtonSearch } from './styled';
 import { RefreshControl } from 'react-native';
 // import Input from '../../components/Input';
@@ -26,12 +26,12 @@ export default () => {
     setRefreshing(false);
   }
 
-  const handleClickSearch=()=>{
+  const handleClickSearch = () => {
     setLoading(true)
-    let filter = checklistDate.filter((data)=>
-      String(data.description).toLowerCase().includes(search)||
-      String(data.data_init).toLowerCase().includes(search)||
-      String(data.data_final).toLowerCase().includes(search)||
+    let filter = checklistDate.filter((data) =>
+      String(data.description).toLowerCase().includes(search) ||
+      String(data.data_init).toLowerCase().includes(search) ||
+      String(data.data_final).toLowerCase().includes(search) ||
       String(data.creator_name).toLowerCase().includes(search)
     )
     setListFilter([...filter])
@@ -49,17 +49,18 @@ export default () => {
     setLoading(false)
   }, [])
 
-  
-  const handleClickQuestion =(item)=>{
+
+  const handleClickQuestion = (item) => {
     // console.log('item',item)
-    navigation.navigate('Question',{item:item})
+    navigation.navigate('Question', { item: item })
   }
 
 
   return (
     <Container>
+      <StatusBar barStyle="dark-content" hidden={false} backgroundColor="rgba(0,0,0,0.07)" translucent={false} />
       <Scroller RefreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-        {loading&& <Loading/>}
+        {loading && <Loading />}
         <HeaderArea>
           <TextLogo>CLPP</TextLogo>
         </HeaderArea>
@@ -70,13 +71,13 @@ export default () => {
           </ButtonSearch>
         </SearchArea>
         <ListArea>
-          {listFilter.length>0?
-          listFilter.map(item => (
-            <TableItem data={item} key={item.id} onPress={()=>handleClickQuestion(item)}/>
-          )):
-          checklistDate.map(item => (
-            <TableItem data={item} key={item.id} onPress={()=>handleClickQuestion(item)}/>
-          ))}
+          {listFilter.length > 0 ?
+            listFilter.map(item => (
+              <TableItem data={item} key={item.id} onPress={() => handleClickQuestion(item)} />
+            )) :
+            checklistDate.map(item => (
+              <TableItem data={item} key={item.id} onPress={() => handleClickQuestion(item)} />
+            ))}
         </ListArea>
       </Scroller>
     </Container>

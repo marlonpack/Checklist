@@ -4,12 +4,12 @@ import styled from 'styled-components/native';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
-  background-color: #FAFAFA;
+  background-color: rgba(0,0,0,0.05);
 `;
 
 export const Scroller = styled.ScrollView`
   flex: 1;
-  padding: 20px;
+  padding: 5px;
 `;
 
 
@@ -24,4 +24,15 @@ export const ButtonSave = styled.TouchableOpacity`
   width: 100px;
   margin: 5px auto;
   border-radius: 36px;
+`;
+
+export const Header = styled.View`
+  margin: 5px 0;
+`;
+
+
+
+export const HeaderText = styled.Text`
+font-size: 36px;
+font-weight: bold;
 `;

@@ -2,6 +2,7 @@ import React,{useRef} from 'react';
 import { Text, View, TouchableHighlight, StyleSheet } from 'react-native';
 import SignatureCapture from 'react-native-signature-capture';
 import { useNavigation } from '@react-navigation/native';
+import { Divider } from 'native-base';
 
 export default () => {
   const sign = useRef(null);

@@ -6,7 +6,7 @@ import Checklist from '../screens/Checklist';
 import Message from '../screens/Message';
 import Profile from '../screens/Profile';
 import CustomTabBar from '../components/CustomTabBar';
-
+import Question from '../screens/Question';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,5 +17,6 @@ export default ()=>(
     <Tab.Screen name="Calendar" component={Calendar}/>
     <Tab.Screen name="Message" component={Message}/>
     <Tab.Screen name="Profile" component={Profile}/>
+    <Tab.Screen name="Question" component={Question}/>
   </Tab.Navigator>
 )
