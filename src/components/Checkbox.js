@@ -24,7 +24,17 @@ export default ({ question, option }) => {
   const [options, setOptions] = React.useState(option);
   // console.log(options)
   return (
-    <Container>
+    <Container style={{
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+
+      elevation: 8,
+    }}>
       <QuestionText>{question}</QuestionText>
       <Divider bgColor="#326744"  />
       <Checkbox.Group onChange={setGroupValues} value={groupValues}   >

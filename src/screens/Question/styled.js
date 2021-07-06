@@ -4,7 +4,8 @@ import styled from 'styled-components/native';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
-  background-color: rgba(0,0,0,0.05);
+  /* background-color: rgba(0,0,0,0.05); */
+  background-color: #FFF;
 `;
 
 export const Scroller = styled.ScrollView`

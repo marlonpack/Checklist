@@ -35,7 +35,17 @@ export const TextArea = styled.Text`
 export default ({question, answer, onPress})=>{
 
   return(
-  <Container>
+    <Container style={{
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+
+      elevation: 8,
+    }}>
   <QuestionText>{question}</QuestionText>
   {/* <Divider bgColor="#326744"  /> */}
   <ButtonArea onPress={onPress}>

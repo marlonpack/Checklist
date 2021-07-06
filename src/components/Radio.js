@@ -11,23 +11,34 @@ export const QuestionText = styled.Text`
 
 export const Container = styled.View`
   flex: 1;
-  margin: 5px 0;
+  margin: 5px 5px;
   background-color: #FFF;
   padding: 10px;
   border-radius: 20px;
+
 `;
 
-export default ({question, option}) => {
+export default ({ question, option }) => {
   const [value, setValue] = React.useState("one");
   const [options, setOptions] = React.useState(option);
 
   return (
-    <Container>
+    <Container style={{
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+
+      elevation: 8,
+    }}>
       <QuestionText>{question}</QuestionText>
 
-      <Divider bgColor="#326744"  />
-      <Radio.Group defaultValue="1" name="myRadioGroup" onChange={(nextValue) => {setValue(nextValue)}}>
-      {Object.values(options).map((item, index) => <Radio key={index} accessibilityLabel="This is a checkbox" value={item} my={1}>{item}</Radio>)}
+      <Divider bgColor="#326744" />
+      <Radio.Group defaultValue="1" name="myRadioGroup" onChange={(nextValue) => { setValue(nextValue) }}>
+        {Object.values(options).map((item, index) => <Radio key={index} accessibilityLabel="This is a checkbox" value={item} my={1}>{item}</Radio>)}
         {/* <Radio accessibilityLabel="This is a Radio" value="1" my={1}>
           First
         </Radio>
