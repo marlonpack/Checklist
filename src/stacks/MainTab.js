@@ -17,6 +17,6 @@ export default ()=>(
     <Tab.Screen name="Calendar" component={Calendar}/>
     <Tab.Screen name="Message" component={Message}/>
     <Tab.Screen name="Profile" component={Profile}/>
-    <Tab.Screen name="Question" component={Question}/>
+    {/* <Tab.Screen name="Question" component={Question}/> */}
   </Tab.Navigator>
 )

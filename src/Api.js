@@ -22,6 +22,14 @@ export default{
     return json;
   },
 
+  EMPLOYEE_USER:async(session,id)=>{
+    const req= await fetch(`${API_URL}CCPP/Employee.php?AUTH=${session}&app_id=13&id=${id}`,{
+      method:'GET',
+    });
+    const json = await req.json();
+    return json;
+  },
+
   TOKEN_POST:async(body)=>{
     const req= await fetch(`${API_URL}CCPP/Login.php?login&app_id=13`,{
       method:'POST',
@@ -39,6 +47,7 @@ export default{
     const json = await req.json();
     return json;
   },
+
 
   GET_CHECKLIST_HOME:async(id)=>{
     const req = await fetch(`${API_URL}CLPP/Checklist.php?userId=${id}`,{

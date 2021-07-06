@@ -22,7 +22,7 @@ const Input = styled.TextInput`
   margin-left: 10px;
 `;
 
-export default ({ IconSvg, placeholder, value, onChangeText, password }) => {
+export default ({ IconSvg, placeholder, value, onChangeText, password}) => {
   return (
     <InputArea>
       <Input 
