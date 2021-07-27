@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import SignatureCapture from './SignatureCapture';
 import { Divider } from 'native-base';
+import Verified from '../assets/verified.svg';
+import { useNavigation } from '@react-navigation/native';
 
 export const Container = styled.View`
   flex: 1;
@@ -11,6 +13,12 @@ export const Container = styled.View`
   padding: 10px;
   /* border: 1px solid #3B6895; */
   border-radius: 20px;
+`;
+
+export const Header = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 export const ButtonArea = styled.TouchableOpacity`
@@ -32,9 +40,19 @@ export const TextArea = styled.Text`
   font-size: 18px;
 `;
 
-export default ({question, answer, onPress})=>{
+export default ({ question, answer, onPress, response, id, type}) => {
+  const nav = useNavigation();
+  const [verific, setVerific] = useState(false);
+  // const [, setId] = useState(id);
 
-  return(
+  // console.log(testClick())
+
+  // useEffect(() => {
+  //  setVerific(response);
+  // }, [response]);
+
+
+  return (
     <Container style={{
       shadowColor: "#000",
       shadowOffset: {
@@ -46,13 +64,20 @@ export default ({question, answer, onPress})=>{
 
       elevation: 8,
     }}>
-  <QuestionText>{question}</QuestionText>
-  {/* <Divider bgColor="#326744"  /> */}
-  <ButtonArea onPress={onPress}>
-    <TextArea>
-     {answer}
-    </TextArea>
-  </ButtonArea>
-  </Container>
+      <Header>
+        <QuestionText>{question}</QuestionText>
+        {verific&&<Verified width="24" height="24" />}
+      </Header>
+      {/* <Divider bgColor="#326744"  /> */}
+      <ButtonArea onPress={()=>{
+        setVerific(true)
+        nav.navigate('Capture', { type: type, id:id })
+        }}>
+        <TextArea>
+          {answer}
+        </TextArea>
+      </ButtonArea>
+
+    </Container>
   )
 }

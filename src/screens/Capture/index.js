@@ -8,10 +8,11 @@ export default ({ route, navigation }) => {
   // console.log(navigation.goBack())
   return (
     <View style={{ flex: 1 }}>
+      
       {route.params.type == 1 ?
-        <SignatureCapture navigation={navigation}/>
+        <SignatureCapture navigation={navigation} id={route.params.id} />
         :
-        <PhotoCapture />
+        <PhotoCapture navigation={navigation} id={route.params.id} />
       }
     </View>
   )

@@ -9,6 +9,7 @@ const Area = styled.TouchableOpacity`
   padding: 15px;
   flex-direction: column;
   border: solid 1px #3B6895;
+  box-shadow: 0px 2px 1px rgba(0,0,0,0.25);
   
 `;
 
@@ -33,7 +34,17 @@ const CheckName = styled.Text`
 
 export default ({ data, disabled, onPress }) => {
   return (
-    <Area disabled={disabled} onPress={onPress}>
+    <Area disabled={disabled} onPress={onPress} style={{
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+
+      elevation: 8,
+    }}>
       <CheckName>{data.description}</CheckName>
       <InfoArea>
         <UserName>{data.date_init != null && data.date_final != null ? `Validade: ${data.date_init} a ${data.date_final}` : `Sem validade`}</UserName>

@@ -34,8 +34,10 @@ export const SearchArea = styled.View`
 export const ListArea = styled.View`
   margin-top: 30px;
   margin-bottom: 30px;
+  box-shadow: 0px 2px 1px rgba(0,0,0,0.25);
   /* background-color:red; */
   /* border: solid 1px #3B6895; */
+
 `;
 
 export const Input = styled.TextInput`

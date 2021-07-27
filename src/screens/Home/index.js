@@ -59,7 +59,7 @@ export default ({navigation}) => {
 
   const handleClickQuestion = (item) => {
     // console.log('item',item)
-    nav.navigate('Question', { item: item })
+    nav.navigate('Question', { item: item})
   }
 
 

@@ -14,9 +14,9 @@ export default ()=>(
   <Tab.Navigator tabBar={props=><CustomTabBar {...props}/>}>
     <Tab.Screen name="Home" component={Home}/>
     <Tab.Screen name="Checklist" component={Checklist}/>
-    <Tab.Screen name="Calendar" component={Calendar}/>
+    {/* <Tab.Screen name="Calendar" component={Calendar}/> */}
     <Tab.Screen name="Message" component={Message}/>
     <Tab.Screen name="Profile" component={Profile}/>
-    {/* <Tab.Screen name="Question" component={Question}/> */}
+    <Tab.Screen name="Question" component={Question}/>
   </Tab.Navigator>
 )

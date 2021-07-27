@@ -58,10 +58,10 @@ export default ({ state, navigation }) => {
         <PageName>Checklist</PageName>
       </TabItem>
 
-      <TabItem onPress={() => goTo('Calendar')}>
+      {/* <TabItem onPress={() => goTo('Calendar')}>
         <TodayIcon width="24" height="24" fill={state.index === 2 ? "#51DE9F" : "#FFFFFF"} />
         <PageName>Agenda</PageName>
-      </TabItem>
+      </TabItem> */}
 
       <TabItem onPress={() => goTo('Message')}>
         <MessageIcon width="24" height="24" fill={state.index === 3 ? "#51DE9F" : "#FFFFFF"} />

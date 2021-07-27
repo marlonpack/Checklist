@@ -1,20 +1,25 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { RNCamera } from 'react-native-camera';
 import { StyleSheet, View, TouchableOpacity, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { ResponseContext } from '../context/ResponseContext';
 
-export default () => {
+export default ({ navigation,  id }) => {
   const photo = useRef(null);
   const [image, setImage] = useState('');
+  const [result, setResult] = useState(0);
   const [teste, setTeste] = useState(0);
+  const { dispatch: responseDispatch} = useContext(ResponseContext);
   const nav = useNavigation();
 
   const takePicture = async () => {
     if (photo) {
       const options = { quality: 0.5, base64: true, forceUpOrientation: true, fixOrientation: true, };
       const data = await photo.current.takePictureAsync(options);
+      console.log(data)
+      setResult(data.base64);
       setImage(data.uri);
-      setTeste(1)
+      setTeste(1);
     }
   };
 
@@ -23,6 +28,11 @@ export default () => {
   }
 
   const handleClickContinue = ()=>{
+    responseDispatch({
+      type: 'setResponse',
+      payload: { id: id, response: result }
+     })
+
     nav.goBack();
   }
 

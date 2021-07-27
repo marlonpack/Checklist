@@ -1,14 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { Text, View, TouchableHighlight, StyleSheet } from 'react-native';
 import SignatureCapture from 'react-native-signature-capture';
 import { useNavigation } from '@react-navigation/native';
 import { Divider } from 'native-base';
+import { ResponseContext } from '../context/ResponseContext';
 
 
-export default ({ navigation }) => {
+export default ({ navigation,  id }) => {
   const sign = useRef(null);
   const nav = useNavigation();
-
+  const { dispatch: responseDispatch} = useContext(ResponseContext);
  
   const SaveSign = () => {
     sign.current.saveImage()
@@ -20,7 +21,24 @@ export default ({ navigation }) => {
 
 
   const OnSaveEvent = (result) => {
-    // console.log(result)
+    // console.log(result.encoded)
+    // console.log(setResponse())
+
+
+    responseDispatch({
+      type: 'setResponse',
+      payload: { id: id, response: result.encoded }
+     })
+
+
+    // for(let i=0; i<= response.length; i++){
+    //   if(response[i] && response[i].id!==id){
+    //     setResponse([...response,{id:id, response:result.encoded}])
+    //   }else{
+    //     response.splice(i,1)
+    //     setResponse([...response,{id:id, response:result.encoded}])
+    //   }
+    // }
     navigation.goBack();
   };
 
@@ -47,7 +65,7 @@ export default ({ navigation }) => {
         minStrokeWidth={5}
         maxStrokeWidth={5}
         // backgroundColor="#ff00ff"
-        viewMode={"landscape"}
+        // viewMode={"landscape"}
       />
 
       <View style={{ flex: 1, flexDirection: "row" }}>

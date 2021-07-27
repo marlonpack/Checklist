@@ -16,7 +16,7 @@ export default ()=>(
      <Stack.Screen name="Login" component={Login}/>
      <Stack.Screen name="ChangePassword" component={ChangePassword}/>
      <Stack.Screen name="MainTab" component={MainTab}/> 
-    <Stack.Screen name="Question" component={Question} /> 
+    {/* <Stack.Screen name="Question" component={Question} />  */}
     <Stack.Screen name="Capture" component={Capture} />
   </Stack.Navigator>
 )
