@@ -14,6 +14,7 @@ import Api from '../../Api';
 import Loading from '../../components/Loading';
 import MainTab from '../../stacks/MainTab';
 import { ResponseContext } from '../../context/ResponseContext';
+import InputCPF from '../../components/InputCPF';
 
 
 export default ({ route, navigation }) => {
@@ -46,16 +47,16 @@ export default ({ route, navigation }) => {
     navigation.addListener('focus', ()=>setLoad(!load))
     // [load, navigation]
     //[route.params.item.id]
-    console.log(route.params.item)
+    // console.log(route.params.item)
   }, [route.params.item.count_question || route.params.item.id || route.params.item.description]);
 
 
-  const handleClickCapture = (type,id)=>{
-    nav.navigate('Capture', { type: type, id:id })
-     setResponse(true, id)
-     testClick(true)
-  }  
-  const testClick = (params)=>{return params}
+  // const handleClickCapture = (type,id)=>{
+  //   nav.navigate('Capture', { type: type, id:id })
+  //    setResponse(true, id)
+  //    testClick(true)
+  // }  
+
   const handleTypeQuestion = (item) => {
     let element;
     switch (String(item.type)) {
@@ -69,16 +70,17 @@ export default ({ route, navigation }) => {
         element = <Radio key={item.id} question={item.asking} option={item.option} id={item.id}  setResponse={setResponse} response={response}/>
         break
       case '4':
-        element = <Slider key={item.id} question={item.asking} option={item.option} id={item.id}  setResponse={setResponse} response={response}/>
+         element = <InputCPF key={item.id} question={item.asking} option={item.option} id={item.id}  setResponse={setResponse} response={response}/>
+     
         break
       case '5':
         element = <TextArea key={item.id} question={item.asking} answer={'Digite  aqui'} id={item.id}  setResponse={setResponse} response={response}/>
         break
       case '6':
-        element = <QuestionButton key={item.id} testClick={testClick}  question={item.asking} answer={'Clique aqui'} type={0} onPress={()=>{return nav.navigate('Capture', { type: 0, id:item.id })}} id={item.id}  response={response}/>
+        element = <QuestionButton key={item.id}   question={item.asking} answer={'Clique aqui'} type={0} onPress={()=>{return nav.navigate('Capture', { type: 0, id:item.id })}} id={item.id}  response={response}/>
         break
       case '7':
-        element = <QuestionButton key={item.id} testClick={testClick} question={item.asking} answer={'Clique aqui'} type={1} onPress={()=>{return nav.navigate('Capture', { type: 0, id:item.id })}} id={item.id}  response={response}/>
+        element = <QuestionButton key={item.id} question={item.asking} answer={'Clique aqui'} type={1} onPress={()=>{return nav.navigate('Capture', { type: 0, id:item.id })}} id={item.id}  response={response}/>
         break
       default:
         console.warn('Não existe tipo=' + type)
@@ -91,14 +93,18 @@ export default ({ route, navigation }) => {
 
   return (
     // <SafeAreaView style={{ flex: 1 }}>
-      <Container>
+      <Container
+      
+      >
         {loading&&<Loading/>}
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor="rgba(0,0,0,0.07)" translucent={false} />
-        <Scroller>
+        <Scroller >
 
           <Header>
             <HeaderText>{route.params.item.description}</HeaderText>
           </Header>
+
+          <Divider bgColor="#326744" />
 
           {data&& data.map((item, key) => (
             handleTypeQuestion(item)

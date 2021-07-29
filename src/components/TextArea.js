@@ -34,11 +34,12 @@ export default ({question, answer, response, id, setResponse}) => {
     //   }
     // }
 
-    responseDispatch({
-      type: 'setResponse',
-      payload: { id: id, response: handleChange }
-     })
+    // responseDispatch({
+    //   type: 'setResponse',
+    //   payload: { id: id, response: handleChange }
+    //  })
 
+      console.log(handleChange)
 
     handleChange != '' ? setVerific(true): setVerific(false)
     
