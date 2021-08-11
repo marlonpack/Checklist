@@ -1,4 +1,5 @@
 const API_URL = 'http://192.168.0.99:71/GLOBAL/Controller/';
+// const API_URL = 'http://187.35.128.157:71/GLOBAL/Controller/';
 
 export default{
   VERSION:async()=>{
@@ -72,7 +73,12 @@ export default{
     });
     const json = await req.json();
     return json;
-  }
-  
+  },
+
+  GET_OPTION:async(id)=>{
+    const req = await fetch(`${API_URL}CLPP/Option.php?id=${id}`)
+    const json = await req.json();
+    return json;
+  } 
 }
 

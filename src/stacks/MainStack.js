@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import MainTab from './MainTab';
 import Login from '../screens/Login';
 import ChangePassword from '../screens/ChangePassword';
-import Question from '../screens/Question';
+// import Question from '../screens/Question';
 import Capture from '../screens/Capture';
 
 

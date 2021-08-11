@@ -4,6 +4,10 @@ import styled from 'styled-components/native';
 import { Divider } from 'native-base';
 import Verified from '../assets/verified.svg';
 import { ResponseContext } from '../context/ResponseContext';
+import Api from '../Api';
+import Note from '../assets/note.svg';
+import Camera from '../assets/camera.svg';
+import { useNavigation } from '@react-navigation/native';
 
 export const Container = styled.View`
   flex: 1;
@@ -23,85 +27,118 @@ export const QuestionText = styled.Text`
 export const Header = styled.View`
   flex: 1;
   flex-direction: row;
-  justify-content: space-between;
+  width: 100%;
 `;
 
-export default ({ question, option, id, response, setResponse }) => {
+
+export const HeaderTitle = styled.View`
+  flex: 1;
+  width: 90%;
+  `;
+
+export const HeaderOption = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+  `;
+
+export const Button = styled.TouchableOpacity`
+  align-items: center;
+  background-color: transparent;
+  margin-left: 20px;
+  `;
+
+export const Main = styled.View`
+  flex: 1;
+  flex-direction: row;
+  width: 100%;
+`;
+
+export const Check = styled.View`
+  flex: 1;
+  flex-direction: row;
+  width: 50%;
+`;
+
+
+export const LineOption = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 50%;
+`;
+
+export default ({ question, option, id, Modal, setTes, setResponseObject, idQuestion, setIdQuestion }) => {
   const [groupValues, setGroupValues] = React.useState([]);
   const [options, setOptions] = React.useState(option);
   const [verific, setVerific] = React.useState(false);
+  const [response, setResponse] = React.useState([]);
+  const [note, setNote] = React.useState(false);
+  const [photo, setPhoto] = React.useState(false);
+  const nav = useNavigation();
+  const { dispatch: responseDispatch } = useContext(ResponseContext);
 
-  const { dispatch: responseDispatch} = useContext(ResponseContext);
-  // console.log(options)
+  React.useEffect(async () => {
+    setResponse([]);
+    let res = await Api.GET_OPTION(id);
+    setResponse(...response, res.data);
+  }, [id]);
 
-  // userDispatch({
-  //   type: 'setSession',
-  //   payload: {
-  //     session: json.data.session
-  //   }
-  // })
 
-  const handleCheck = (value) => {
+  const handleCheck = async (value) => {
     setGroupValues(value)
 
-     responseDispatch({
-      type: 'setResponse',
-      payload: { id: id, response: value }
-     })
+    if (value.length > 0) {
+      setVerific(true)
 
+      for (let required of value) {
+        for (let req of response) {
 
-    // for (let i = 0; i <= res.response.length; ++i) {
-    //   // console.log(Object.assign({},value))
-    //   if (res.response[i] && res.response[i].id == id) {
-    //   console.log(res.response[i], i)
-        
-    //    responseDispatch({
-    //       type: 'setResponseRemove',
-    //       payload: i
-    //       // payload: res.response[i]
-    //     })
-        
-    //     responseDispatch({
-    //       type: 'setResponse',
-    //       payload:{ id: id, response: Object.assign({},value) }
-    //     })
-    //   } else {
+          if (req.id == required) {
 
-    //     responseDispatch({
-    //       type: 'setResponse',
-    //       payload:{ id: id, response: Object.assign({},value) }
-    //     })
-    //   }
-
-    // }
-    // console.log('res', res.response.length, res)
-
-
-    // for (let i = 0; i <= res.length; i++) {
-    //   console.log('res',res[i] && res[i].id != id)
-    //   if (res[i] && res[i].id != id) {
-    //     // setResponse([...res, { id: id, response: res }])
-    //     responseDispatch({
-    //       type: 'setResponse',
-    //       payload: { id: id, response: value }
-    //     })
-    //     console.log('resa',res)
-    //   } else {
-    //     console.log('resd',res)
-    //     res.splice(i, 1)
-    //     console.log('resd',res)
-    //     responseDispatch({
-    //       type: 'setResponse',
-    //       payload: { id: id, response: value }
-    //     })
-    //   }
-    // }
+            if (req.observe == 1 && req.photo == 0) {
+              responseDispatch({
+                type: 'setResponse',
+                payload: { id: required, questionId: req.question_id, description: req.description, type: '1', note: 'null' }
+              })
+            }
+            else if (req.photo == 1 && req.observe == 0) {
+              responseDispatch({
+                type: 'setResponse',
+                payload: { id: required, questionId: req.question_id, description: req.description, type: '1', photo: 'null' }
+              })
+            }
+            else if (req.photo == 1 && req.observe == 1) {
+              responseDispatch({
+                type: 'setResponse',
+                payload: { id: required, questionId: req.question_id, description: req.description, type: '1', note: 'null', photo: 'null' }
+              })
+            }
+            else if (req.photo == 0 && req.observe == 0) {
+              responseDispatch({
+                type: 'setResponse',
+                payload: { id: required, questionId: req.question_id, description: req.description, type: '1' }
+              })
+            }
+          }
+        }
+      }
+    }
+    else {
+      setVerific(false);
+    }
   }
 
-  React.useEffect(() => {
-    groupValues.length > 0 && setVerific(true)
-    groupValues.length == 0 && setVerific(false)
-  }, [groupValues]);
+  const handleClickNote = (item) => {
+    idQuestion != item && setIdQuestion(item)
+    Modal.current?.open();
+  }
+
+  const handleClickPhoto = (item) => {
+    nav.navigate('Capture', { type: 0, id: item })
+  }
+
 
   return (
     <Container style={{
@@ -115,17 +152,37 @@ export default ({ question, option, id, response, setResponse }) => {
 
       elevation: 8,
     }}>
-
       <Header>
-        <QuestionText>{question}</QuestionText>
-        {verific && <Verified width="24" height="24" />}
+
+        <HeaderTitle>
+          <QuestionText>{question}</QuestionText>
+        </HeaderTitle>
+
+        <HeaderOption>
+          {verific && <Verified width="24" height="24" />}
+        </HeaderOption>
+
       </Header>
+
       <Divider bgColor="#326744" />
 
-      <Checkbox.Group onChange={t => handleCheck(t)} value={groupValues}   >
-        {Object.values(options).map((item, index) => <Checkbox key={index} accessibilityLabel="This is a checkbox" value={item} my={1}>{item}</Checkbox>)}
+      {response.length > 0 && response.map((item, key) => {
+        return (
+          <Main key={key} >
+            <Check>
+              <Checkbox.Group onChange={t => handleCheck(t)} value={groupValues}   >
+                <Checkbox accessibilityLabel="This is a checkbox" value={item.id} my={1}>{item.description}</Checkbox>
+              </Checkbox.Group>
+            </Check>
+            <LineOption>
+              {item.observe == 1 && groupValues.some(element => element == item.id) && <Note width="24" height="24" onPress={() => handleClickNote(item.id)} />}
+              {item.photo == 1 && groupValues.some(element => element == item.id) && <Camera width="24" height="24" onPress={() => handleClickPhoto(item.id)} />}
+            </LineOption>
+          </Main>
+        )
+      }
+      )}
 
-      </Checkbox.Group>
     </Container>
   )
 }

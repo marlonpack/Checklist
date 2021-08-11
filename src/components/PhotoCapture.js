@@ -16,8 +16,9 @@ export default ({ navigation,  id }) => {
     if (photo) {
       const options = { quality: 0.5, base64: true, forceUpOrientation: true, fixOrientation: true, };
       const data = await photo.current.takePictureAsync(options);
-      console.log(data)
-      setResult(data.base64);
+
+      // setResult(data.base64);
+      setResult(data.uri);
       setImage(data.uri);
       setTeste(1);
     }
@@ -29,8 +30,8 @@ export default ({ navigation,  id }) => {
 
   const handleClickContinue = ()=>{
     responseDispatch({
-      type: 'setResponse',
-      payload: { id: id, response: result }
+      type: 'setPhoto',
+      payload: { id: id, photo: result }
      })
 
     nav.goBack();

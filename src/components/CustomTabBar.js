@@ -44,7 +44,6 @@ export default ({ state, navigation }) => {
 
 
 
-
   return (
     <TabArea>
 
@@ -64,14 +63,14 @@ export default ({ state, navigation }) => {
       </TabItem> */}
 
       <TabItem onPress={() => goTo('Message')}>
-        <MessageIcon width="24" height="24" fill={state.index === 3 ? "#51DE9F" : "#FFFFFF"} />
+        <MessageIcon width="24" height="24" fill={state.index === 2 ? "#51DE9F" : "#FFFFFF"} />
         <PageName>Mensagem</PageName>
       </TabItem>
 
       <TabItem onPress={() => goTo('Profile')}>
         {user.avatar != '' ?
-          <AvatarIcon style={{ opacity: state.index === 4 ? 1 : 0.5 }} source={{ uri: 'data:image/png;base64,' + user.avatar }} /> :
-          <AccountIcon width="24" height="24" fill={state.index === 4 ? "#51DE9F" : "#FFFFFF"} />
+          <AvatarIcon style={{ opacity: state.index === 3 ? 1 : 0.5 }} source={{ uri: 'data:image/png;base64,' + user.avatar }} /> :
+          <AccountIcon width="24" height="24" fill={state.index === 3 ? "#51DE9F" : "#FFFFFF"} />
         }
         <PageName>Perfil</PageName>
       </TabItem>

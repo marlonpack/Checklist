@@ -17,12 +17,13 @@ export const Scroller = styled.ScrollView`
 export const TextButton = styled.Text`
   font-size: 25px;
   color: #FFF;
+  margin: 10px 0;
 `;
 
 export const ButtonSave = styled.TouchableOpacity`
   align-items: center;
   background-color: #326744;
-  width: 100%;
+  width: 70%;
   margin: 20px auto;
   border-radius: 36px;
 `;

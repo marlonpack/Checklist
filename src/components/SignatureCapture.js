@@ -10,7 +10,18 @@ export default ({ navigation,  id }) => {
   const sign = useRef(null);
   const nav = useNavigation();
   const { dispatch: responseDispatch} = useContext(ResponseContext);
- 
+  const [response, setResponse] = React.useState('');
+
+  React.useEffect(async () => {
+    setResponse([]);
+    
+    if (route.params.type == 1) {
+      let res = await Api.GET_OPTION(id);
+      setResponse(res.data);
+    }
+  }, [id]);
+
+
   const SaveSign = () => {
     sign.current.saveImage()
   };
@@ -27,18 +38,9 @@ export default ({ navigation,  id }) => {
 
     responseDispatch({
       type: 'setResponse',
-      payload: { id: id, response: result.encoded }
+      payload: { id: response[0].id, photo: result.encoded }
      })
 
-
-    // for(let i=0; i<= response.length; i++){
-    //   if(response[i] && response[i].id!==id){
-    //     setResponse([...response,{id:id, response:result.encoded}])
-    //   }else{
-    //     response.splice(i,1)
-    //     setResponse([...response,{id:id, response:result.encoded}])
-    //   }
-    // }
     navigation.goBack();
   };
 
