@@ -4,9 +4,10 @@ import SignatureCapture from 'react-native-signature-capture';
 import { useNavigation } from '@react-navigation/native';
 import { Divider } from 'native-base';
 import { ResponseContext } from '../context/ResponseContext';
+import Api from '../Api';
 
 
-export default ({ navigation,  id }) => {
+export default ({ navigation,  id, question }) => {
   const sign = useRef(null);
   const nav = useNavigation();
   const { dispatch: responseDispatch} = useContext(ResponseContext);
@@ -14,11 +15,8 @@ export default ({ navigation,  id }) => {
 
   React.useEffect(async () => {
     setResponse([]);
-    
-    if (route.params.type == 1) {
       let res = await Api.GET_OPTION(id);
       setResponse(res.data);
-    }
   }, [id]);
 
 
@@ -33,12 +31,12 @@ export default ({ navigation,  id }) => {
 
   const OnSaveEvent = (result) => {
     // console.log(result.encoded)
-    // console.log(setResponse())
+
 
 
     responseDispatch({
       type: 'setResponse',
-      payload: { id: response[0].id, photo: result.encoded }
+      payload: { id: response[0].id, questionName:question, photo: result.encoded }
      })
 
     navigation.goBack();
@@ -51,12 +49,12 @@ export default ({ navigation,  id }) => {
 
 
   return (
-    <View style={{ flex: 1, flexDirection: "column" }}>
+    <View style={{ flex: 1, flexDirection: "column",  }}>
 
       <Text style={{ alignItems: "center", justifyContent: "center" }}>Assinatura</Text>
 
       <SignatureCapture
-        style={[{ flex: 1 }, styles.Signature]}
+        style={[{ flex: 1}, styles.Signature]}
         ref={sign}
         onSaveEvent={OnSaveEvent}
         onDragEvent={OnDragEvent}
@@ -68,9 +66,10 @@ export default ({ navigation,  id }) => {
         maxStrokeWidth={5}
         // backgroundColor="#ff00ff"
         // viewMode={"landscape"}
+        viewMode={"portrait"}
       />
 
-      <View style={{ flex: 1, flexDirection: "row" }}>
+      <View style={{  flexDirection: "row" }}>
 
         <TouchableHighlight style={styles.buttonStyle} onPress={SaveSign}>
           <Text>Save</Text>
@@ -116,12 +115,13 @@ const styles = StyleSheet.create({
     flex: 1,
     borderColor: '#000033',
     borderWidth: 1,
+    height: '80%',
   },
   buttonStyle: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 50,
+    height: 40,
     backgroundColor: '#eeeeee',
     margin: 10,
   },

@@ -53,7 +53,7 @@ export default ({Modal, setResponseObject, idQuestion})=>{
   };
 
   return(
-    <Modalize ref={Modal} snapPoint={400} height={400}>
+    <Modalize ref={Modal} snapPoint={400} >
       <Container>
         <Message>Observação</Message>
       <TextArea h={20}   onChangeText={(t)=>setHandleChange(t)}/>

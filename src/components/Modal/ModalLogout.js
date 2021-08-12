@@ -61,7 +61,7 @@ export default ({ ModalizeRef }) => {
 
 
   return (
-    <Modalize ref={ModalizeRef} snapPoint={200} modalHeight={200}>
+    <Modalize ref={ModalizeRef} snapPoint={200} >
       <Container>
 
         <Message>Deseja realmente sair?</Message>

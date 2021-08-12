@@ -74,7 +74,7 @@ export default ({ question, id, type }) => {
 
       onPress={() => {
         setVerific(true)
-        nav.navigate('Capture', { type: type, id: id })
+        nav.navigate('Capture', { type: type, id: id, question: question })
       }}>
 
       {/* <Header> */}

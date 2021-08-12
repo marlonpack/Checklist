@@ -100,25 +100,25 @@ export default ({ question, option, id, Modal, setTes, setResponseObject, idQues
             if (req.observe == 1 && req.photo == 0) {
               responseDispatch({
                 type: 'setResponse',
-                payload: { id: required, questionId: req.question_id, description: req.description, type: '1', note: 'null' }
+                payload: { id: required, questionName:question, questionId: req.question_id, description: req.description, type: '1', note: 'null' }
               })
             }
             else if (req.photo == 1 && req.observe == 0) {
               responseDispatch({
                 type: 'setResponse',
-                payload: { id: required, questionId: req.question_id, description: req.description, type: '1', photo: 'null' }
+                payload: { id: required, questionName:question, questionId: req.question_id, description: req.description, type: '1', photo: 'null' }
               })
             }
             else if (req.photo == 1 && req.observe == 1) {
               responseDispatch({
                 type: 'setResponse',
-                payload: { id: required, questionId: req.question_id, description: req.description, type: '1', note: 'null', photo: 'null' }
+                payload: { id: required, questionName:question, questionId: req.question_id, description: req.description, type: '1', note: 'null', photo: 'null' }
               })
             }
             else if (req.photo == 0 && req.observe == 0) {
               responseDispatch({
                 type: 'setResponse',
-                payload: { id: required, questionId: req.question_id, description: req.description, type: '1' }
+                payload: { id: required, questionName:question, questionId: req.question_id, description: req.description, type: '1' }
               })
             }
           }

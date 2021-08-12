@@ -12,13 +12,14 @@ import Loading from '../../components/Loading';
 
 
 
-export default () => {
+export default ({navigation}) => {
   const [refreshing, setRefreshing] = useState(true);
   const [search, setSearch] = useState('');
   const [listFilter, setListFilter] = useState([]);
   const { state } = useContext(UserContext);
   const [checklistDate, useChecklistDate] = useState([]);
   const [loading, setLoading] = useState(false)
+  const [load,setLoad] = useState(true)
 
   const onRefresh = () => {
     setRefreshing(false);
@@ -45,7 +46,11 @@ export default () => {
       alert(res['message'])
     }
     setLoading(false)
-  }, [])
+    navigation.addListener('focus', ()=>{  
+      setLoad(!load)
+
+    })
+  }, [load, navigation])
 
   
   return (

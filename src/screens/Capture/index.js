@@ -13,7 +13,7 @@ export default ({ route, navigation }) => {
     <View style={{ flex: 1 }}>
 
       {route.params.type == 1 ?
-        <SignatureCapture navigation={navigation} id={route.params.id} />
+        <SignatureCapture navigation={navigation} id={route.params.id} question={route.params.question}/>
         :
         <PhotoCapture navigation={navigation} id={route.params.id} />
       }

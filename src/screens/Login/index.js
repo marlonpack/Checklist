@@ -8,6 +8,7 @@ import PersonIcon from '../../assets/person.svg';
 import Api from '../../Api';
 import { UserContext } from '../../context/UserContext';
 import Loading from '../../components/Loading';
+import { position } from 'styled-system';
 
 export default () => {
   const { dispatch: userDispatch } = useContext(UserContext);
@@ -109,11 +110,11 @@ export default () => {
         <Input IconSvg={LockIcon} placeholder="digite sua senha" value={passwordField} onChangeText={t => setPasswordField(t)} password={true} />
 
         <CustomButton onPress={handleClick}>
-          <CustomButtonText>LOGIN</CustomButtonText>
+          <CustomButtonText >LOGIN</CustomButtonText>
         </CustomButton>
 
         {passwordChange &&
-          <SignMessageButton onPress={handleClickChangePassword}>
+          <SignMessageButton onPress={handleClickChangePassword} >
             <SignMessageButtonText>Sua senha é a padrão</SignMessageButtonText>
             <SignMessageButtonText> Clique aqui para alterar-la</SignMessageButtonText>
           </SignMessageButton>

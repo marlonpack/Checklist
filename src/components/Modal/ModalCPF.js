@@ -103,8 +103,8 @@ export default ({CPFModal, idQuestion})=>{
 
 
     responseDispatch({
-      type: 'setResponse',
-      payload:{id: idQuestion, note: `${valueName}-${valueCPF}` }
+      type: 'setNote',
+      payload:{id: idQuestion,  note: `${valueName}-${valueCPF}` }
     })
     CPFModal.current?.close();
     setValueCPF('');

@@ -37,7 +37,7 @@ export default ({ModalHelper}) => {
 
 
   return (
-    <Modalize ref={ModalHelper} snapPoint={500} modalHeight={300}>
+    <Modalize ref={ModalHelper} snapPoint={500} >
 
       <Container>
 

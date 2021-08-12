@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import styled from 'styled-components/native';
 import { Divider } from 'native-base';
 import Api from '../Api';
 import AddCircle from '../assets/addCircle.svg';
+import { ResponseContext } from '../context/ResponseContext';
 
 //  const Container = styled.View`
 //   flex: 1;
@@ -79,7 +80,7 @@ export default ({ question, id, setIdQuestion, idQuestion, CPFModal }) => {
   const [valueName, setValueName] = React.useState('');
   const [valueCPF, setValueCPF] = React.useState('');
   const [response, setResponse] = React.useState('');
-  
+  const{dispatch: responseDispatch}= useContext(ResponseContext);
 
 
   React.useEffect(async () => {
@@ -93,6 +94,10 @@ export default ({ question, id, setIdQuestion, idQuestion, CPFModal }) => {
   const handleClickNote = () => {
     idQuestion != response[0].id && setIdQuestion(response[0].id)
     CPFModal.current?.open();
+    // responseDispatch({
+    //   type: 'setResponse',
+    //   payload:{id: idQuestion, questionName:question,  note: `null` }
+    // })
   }
 
 
