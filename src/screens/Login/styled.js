@@ -27,8 +27,8 @@ export const CustomButtonText = styled.Text`
 `;
 
 export const LogoArea = styled.Text`
-  font-size: 60px;
-  color: #000;
+  font-size: 18px;
+  color: #326744;
 `;
 
 export const SignMessageButton = styled.TouchableOpacity`
@@ -43,3 +43,9 @@ export const  SignMessageButtonText = styled.Text`
   font-size: 16px;
   color: red;
 `;
+
+// export const LogoImage = styled.Image`
+//   width: '100';
+//   /* height: 100; */
+
+// `;

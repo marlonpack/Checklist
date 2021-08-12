@@ -9,7 +9,7 @@ import SearchIcon from '../../assets/search';
 import { UserContext } from '../../context/UserContext';
 import Api from '../../Api';
 import Loading from '../../components/Loading';
-
+import ErroLog from '../../components/ErroLog';
 
 
 
@@ -20,8 +20,9 @@ export default ({navigation}) => {
   const { state } = useContext(UserContext);
   const [checklistDate, useChecklistDate] = useState([]);
   const [loading, setLoading] = useState(false)
-  const nav = useNavigation();
   const [load,setLoad] = useState(true)
+  const [text,setText] = useState('')
+  const nav = useNavigation();
 
   const onRefresh = () => {
     setRefreshing(false);
@@ -29,6 +30,7 @@ export default ({navigation}) => {
 
   const handleClickSearch = () => {
     setLoading(true)
+    setText('pesquisando...')
     let filter = checklistDate.filter((data) =>
       String(data.description).toLowerCase().includes(search) ||
       String(data.data_init).toLowerCase().includes(search) ||
@@ -47,7 +49,7 @@ export default ({navigation}) => {
     if (!res["error"]) {
       useChecklistDate(res.data)
     } else {
-      alert(res['message'])
+      alert("Erro",ErroLog(res['message']))
     }
     setLoading(false)
     navigation.addListener('focus', ()=>{  
@@ -67,7 +69,7 @@ export default ({navigation}) => {
     <Container>
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor="rgba(0,0,0,0.07)" translucent={false} />
       <Scroller RefreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-        {loading && <Loading />}
+        {loading && <Loading text={text} />}
         <HeaderArea>
           <TextLogo>CLPP</TextLogo>
         </HeaderArea>

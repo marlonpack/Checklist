@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { Text, View, StatusBar, SafeAreaView } from 'react-native';
+import {StatusBar, Alert} from 'react-native';
 import Checkbox from '../../components/Checkbox';
 import Radio from '../../components/Radio';
 import QuestionButton from '../../components/QuestionButton';
@@ -12,7 +12,7 @@ import { ResponseContext } from '../../context/ResponseContext';
 import InputCPF from '../../components/InputCPF';
 import ModalNote from '../../components/Modal/ModalNote';
 import ModalCPF from '../../components/Modal/ModalCPF';
-
+import ErroLog from '../../components/ErroLog';
 
 export default ({ route, navigation }) => {
   const nav = useNavigation();
@@ -27,20 +27,23 @@ export default ({ route, navigation }) => {
   const { state: responseState, dispatch: responseDispatch } = useContext(ResponseContext);
   const Modal = useRef(null);
   const CPFModal = useRef(null);
+  const[text, setText] = useState();
 
 
   const handleClickSave = () => {
     let unique = []
+    
+    setTes('Verificando Informações...')
     setLoading(true)
     for (let i = responseState.response.length; i >= 0; i--) {
       if (responseState.response[i] && !(unique.some(el => el.id === responseState.response[i].id))) {
         if (responseState.response[i].note == 'null' && responseState.response[i].type != '3' && responseState.response[i].type != '4') {
-          alert(`você deixou de responder observação na questão: "${responseState.response[i].questionName}"`)
+          Alert.alert('Erro',`você deixou de responder observação na questão: "${responseState.response[i].questionName}"`)
           unique.length = 0;
           setLoading(false)
           return;
         } else if (responseState.response[i].photo == 'null' && responseState.response[i].type != '3' && responseState.response[i].type != '4') {
-          alert(`você deixou de responder foto na questão:  "${responseState.response[i].questionName}"`)
+          Alert.alert('Erro',`você deixou de responder foto na questão:  "${responseState.response[i].questionName}"`)
           unique.length = 0;
           setLoading(false)
           return;
@@ -53,11 +56,13 @@ export default ({ route, navigation }) => {
 
     for (let file of data) {
       if (!(unique.some(el => el.questionId === file.id))) {
-        alert(`você não respondeu a questão ${file.description}`)
+        Alert.alert('Erro',`você não respondeu a questão ${file.description}`)
         unique.length = 0;
         setLoading(false)
         return;
       }
+
+
     }
 
     console.log('u', unique)
@@ -68,10 +73,16 @@ export default ({ route, navigation }) => {
 
   useEffect(async () => {
     setData([])
+    setText('Carregando...')
     setLoading(true)
     let res = await Api.GET_QUESTIONS(parseInt(route.params.item.id));
-    setData(res.data)
-    setLoading(false)
+    if(!res.error){
+      setData(res.data)
+      setLoading(false)
+    }else{
+      setLoading(false)
+      Alert.alert('Erro', ErroLog(res.message))
+    }
     navigation.addListener('focus', () => setLoad(!load))
     // [load, navigation]
     //[route.params.item.id]
@@ -79,17 +90,7 @@ export default ({ route, navigation }) => {
   }, [route.params.item.count_question || route.params.item.id || route.params.item.description]);
 
 
-  // useEffect(async()=>{
-  //   if(Object.keys(responseObject).length !=0){
-  //    await responseDispatch(responseObject)
-  //   }
 
-  // },[responseObject])
-  // const handleClickCapture = (type,id)=>{
-  //   nav.navigate('Capture', { type: type, id:id })
-  //    setResponse(true, id)
-  //    testClick(true)
-  // }  
 
   const handleTypeQuestion = (item) => {
     let element;
@@ -118,7 +119,7 @@ export default ({ route, navigation }) => {
   return (
     // <SafeAreaView style={{ flex: 1 }}>
     <Container>
-      {loading && <Loading />}
+      {loading && <Loading text={text}/>}
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#326744" translucent={false} />
       <Scroller >
 

@@ -1,14 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import { View } from 'react-native';
 import React, { useState, useContext } from 'react';
-import { Container, InputArea, CustomButton, CustomButtonText, LogoArea, SignMessageButton, SignMessageButtonText } from './styled';
+import { Image } from 'react-native';
+import { Container, InputArea, CustomButton, CustomButtonText, LogoArea, SignMessageButton, SignMessageButtonText, LogoImage } from './styled';
 import Input from '../../components/Input';
 import LockIcon from '../../assets/lock.svg';
 import PersonIcon from '../../assets/person.svg';
 import Api from '../../Api';
 import { UserContext } from '../../context/UserContext';
 import Loading from '../../components/Loading';
-import { position } from 'styled-system';
+import { Keyboard, Alert } from 'react-native';
+import ErroLog from '../../components/ErroLog';
+
 
 export default () => {
   const { dispatch: userDispatch } = useContext(UserContext);
@@ -17,11 +19,13 @@ export default () => {
   const [passwordField, setPasswordField] = useState('');
   const [passwordChange, setPasswordChange] = useState(false);
   const [loading, setLading] = useState(false);
-
+  const [text, setText]= useState('');
 
 
   const handleClick = async () => {
     if (userField != '' && passwordField != '') {
+      Keyboard.dismiss()
+      setText('buscando informações...')
       setLading(true)
       let json = await Api.TOKEN_POST({ "user": userField, "password": passwordField })
 
@@ -56,7 +60,7 @@ export default () => {
           let dataUser = await Api.EMPLOYEE_USER(json.data.session, json.data.id);
 
           if (!dataUser.error) {
-
+            setText('bem vindo...')
             userDispatch({
               type: 'setUserName',
               payload: {
@@ -67,10 +71,10 @@ export default () => {
             navigation.reset({ routes: [{ name: 'MainTab' }] })
 
           }else{
-            alert(json.message);
+            Alert.alert('Error',ErroLog(json.message));
           }
         } else {
-          alert(json.message);
+          Alert.alert('Error',ErroLog(json.message));
         }
 
       } else {
@@ -85,11 +89,11 @@ export default () => {
           setPasswordChange(true)
         }
         else {
-          alert(json.message);
+          Alert.alert('Error',ErroLog(json.message));
         }
       }
     } else {
-      alert('digite seu nome de usuário e a senha')
+      Alert.alert('Error','digite seu nome de usuário e a senha')
     }
     setLading(false)
   }
@@ -103,8 +107,9 @@ export default () => {
 
   return (
     <Container>
-      <LogoArea>CLPP</LogoArea>
-      {loading && <Loading />}
+      <Image style={{ width:100, height:100}}source={require('../../assets/logo.png')}  />
+      {loading && <Loading text={text}/>}
+      <LogoArea>Checklist pegpese</LogoArea>
       <InputArea>
         <Input IconSvg={PersonIcon} placeholder="digite seu login" value={userField} onChangeText={t => setUserField(t)} />
         <Input IconSvg={LockIcon} placeholder="digite sua senha" value={passwordField} onChangeText={t => setPasswordField(t)} password={true} />
