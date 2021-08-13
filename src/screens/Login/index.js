@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useContext } from 'react';
 import { Image } from 'react-native';
-import { Container, InputArea, CustomButton, CustomButtonText, LogoArea, SignMessageButton, SignMessageButtonText, LogoImage } from './styled';
+import { Container, InputArea, CustomButton, CustomButtonText, LogoArea, SignMessageButton, SignMessageButtonText } from './styled';
 import Input from '../../components/Input';
 import LockIcon from '../../assets/lock.svg';
 import PersonIcon from '../../assets/person.svg';

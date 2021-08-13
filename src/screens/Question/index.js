@@ -61,10 +61,10 @@ export default ({ route, navigation }) => {
         setLoading(false)
         return;
       }
-
-
     }
 
+    
+    nav.navigate('Approved')
     console.log('u', unique)
     setLoading(false)
   }

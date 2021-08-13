@@ -43,9 +43,3 @@ export const  SignMessageButtonText = styled.Text`
   font-size: 16px;
   color: red;
 `;
-
-// export const LogoImage = styled.Image`
-//   width: '100';
-//   /* height: 100; */
-
-// `;
