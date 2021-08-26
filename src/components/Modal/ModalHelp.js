@@ -1,7 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import styled from 'styled-components/native';
 import { Select, TextArea } from 'native-base';
 import { Modalize } from 'react-native-modalize';
+import { UserContext } from '../../context/UserContext';
+import Api from '../../Api';
+import { Alert } from 'react-native';
 
 const Container = styled.View`
   flex: 1;
@@ -34,22 +37,30 @@ const Message = styled.Text`
 
 
 export default ({ModalHelper}) => {
+  const[text, setText] = useState('');
+  const{state: userState} = useContext(UserContext);
+
+  const handleChange= async()=>{
+    let res= await Api.POST_SUPPORT({"id_application":13, "id_user":userState.userId, "message": text}, userState.session);
+    console.log(res);
+    if(res.error){
+      Alert.alert("Error", "não foi possível registrar sua mensagem");
+    }
+  }
+
 
 
   return (
-    <Modalize ref={ModalHelper} snapPoint={500} >
+    <Modalize ref={ModalHelper}sss adjustToContentHeight={true}>
 
       <Container>
 
         <Message>Entre em contato com o suporte</Message>
         
-        {/* <Select placeholder="digite aqui" accessibilityLabel="digite aqui" minWidth={500} dropdownOpenIcon>
-          <Select.Item label="teste" value="teste"/>
-        </Select> */}
+   
+        <TextArea h={20} onChangeText={t=>setText(t)} w='100%' numberOfLines={4} placeholder="digite aqui sua duvida ou sugestão" accessibilityLabel="digite aqui sua duvida ou sugestão"/>
 
-        <TextArea h={20} w='100%' numberOfLines={4} placeholder="digite aqui sua duvida ou sugestão" accessibilityLabel="digite aqui sua duvida ou sugestão"/>
-
-        <Button><ButtonText>Enviar</ButtonText></Button>
+        <Button onPress={handleChange}><ButtonText>Enviar</ButtonText></Button>
       </Container>
     </Modalize>
   );

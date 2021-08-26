@@ -50,8 +50,8 @@ export default{
   },
 
 
-  GET_CHECKLIST_HOME:async(id)=>{
-    const req = await fetch(`${API_URL}CLPP/Checklist.php?userId=${id}`,{
+  GET_CHECKLIST_HOME:async(id, session)=>{
+    const req = await fetch(`${API_URL}CLPP/Checklist.php?app_id=13&AUTH=${session}&userId=${id}`,{
       method:'GET',
     });
     const json = await req.json();
@@ -59,26 +59,64 @@ export default{
     return json;
   },
 
-  GET_CHECKLIST_ALL:async(id)=>{
-    const req = await fetch(`${API_URL}CLPP/Checklist.php?all&userId=${id}`,{
+  GET_CHECKLIST_ALL:async(id, session)=>{
+    const req = await fetch(`${API_URL}CLPP/Checklist.php?all&app_id=13&AUTH=${session}&userId=${id}`,{
       method:'GET',
     });
     const json = await req.json();
     return json;
   },
 
-  GET_QUESTIONS:async(id)=>{
-    const req = await fetch(`${API_URL}CLPP/Question.php?id=${id}`,{
+  GET_QUESTIONS:async(id, session)=>{
+    const req = await fetch(`${API_URL}CLPP/Question.php?app_id=13&AUTH=${session}&id=${id}`,{
       method:'GET'
     });
     const json = await req.json();
     return json;
   },
 
-  GET_OPTION:async(id)=>{
-    const req = await fetch(`${API_URL}CLPP/Option.php?id=${id}`)
+  GET_OPTION:async(id, session)=>{
+    const req = await fetch(`${API_URL}CLPP/Option.php?app_id=13&AUTH=${session}&id=${id}`)
     const json = await req.json();
     return json;
-  } 
+  }, 
+
+  POST_SUPPORT:async(body,session)=>{
+    const req = await fetch(`${API_URL}CLPP/Support.php?app_id=13&AUTH=${session}`,{
+      method:'POST',
+      body: JSON.stringify(body)
+    })
+    const json = await req.json();
+
+    return json;
+  },
+
+  GET_MESSAGE_USER:async(session, page, send, user)=>{
+    const req = await fetch(`${API_URL}CLPP/Message.php?app_id=13&AUTH=${session}&pages=${page}&id_send=${send}&id_user=${user}`)
+    const json = await req.json();
+    return json;
+  },
+
+  GET_MESSAGE_GROUP:async(session, page, send, group)=>{
+    const req = await fetch(`${API_URL}CLPP/Message.php?app_id=13&AUTH=${session}&pages=${page}&id_send=${send}&id_group=${group}`)
+    const json = await req.json();
+    return json;
+  }, 
+  
+  GET_NOTIFY:async(session, id)=>{
+    const req = await fetch(`${API_URL}CLPP/Message.php?app_id=13&AUTH=${session}&id=${id}`);
+    const json = await req.json();
+    return json;
+  },
+
+  POST_USER:async(body,session)=>{
+    const req= await fetch(`${API_URL}CLPP/Message.php?app_id=13&AUTH=${session}`,{
+      method:'POST',
+      body: JSON.stringify(body)
+    });
+    const json = await req.json();
+    return json;
+  }
+
 }
 

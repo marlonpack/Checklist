@@ -11,6 +11,22 @@ export const Container = styled.SafeAreaView`
   padding: 80px;
 `;
 
+export const Scroller = styled.ScrollView`
+  flex: 1;
+  padding: 20px;
+`;
+
+export const Area = styled.TouchableOpacity`
+  background-color: #FFF;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  padding: 15px;
+  flex-direction: column;
+  border: solid 1px #3B6895;
+  box-shadow: 0px 2px 1px rgba(0,0,0,0.25);
+  
+`;
+
 
 export const Button = styled.TouchableOpacity`
   background-color: #326744;

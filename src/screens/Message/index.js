@@ -8,20 +8,7 @@ export default ()=>{
 
   return (
     <Container>
-      
  
-      <CircleButton>
-        <TextButton>5</TextButton>
-      </CircleButton>
-
-      <Button>
-      <TextButton>Recebidas</TextButton>
-      </Button>
-
-
-      <Button>
-      <TextButton>Enviar</TextButton>
-      </Button>
 
     </Container>
   );

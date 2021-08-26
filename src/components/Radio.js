@@ -4,11 +4,14 @@ import styled from 'styled-components/native';
 import { Divider } from 'native-base';
 import Verified from '../assets/verified.svg';
 import { ResponseContext } from '../context/ResponseContext';
+import { UserContext } from '../context/UserContext';
 import Api from '../Api';
 import Note from '../assets/note.svg';
 import Camera from '../assets/camera.svg';
 import ModalNote from './Modal/ModalNote';
 import { useNavigation } from '@react-navigation/native';
+import {Alert} from 'react-native'; 
+import ErroLog from './ErroLog';
 
 export const Button = styled.TouchableOpacity`
   align-items: center;
@@ -77,6 +80,7 @@ export default ({ question, option, id, Modal, setTes, setResponseObject, idQues
   const [photo, setPhoto] = React.useState(false);
   const [response, setResponse] = React.useState([]);
   const { dispatch: responseDispatch } = useContext(ResponseContext);
+  const { state: userState } = useContext(UserContext);
   const nav = useNavigation();
   // const Modal = useRef(null);
 
@@ -137,7 +141,11 @@ export default ({ question, option, id, Modal, setTes, setResponseObject, idQues
 
   React.useEffect(async () => {
     setResponse([]);
-    let res = await Api.GET_OPTION(id);
+    let res = await Api.GET_OPTION(id, userState.session);
+    if(res.error){
+      Alert.alert('Error',ErroLog(json.message));
+      return;
+    }
     setResponse(...response, res.data);
   }, [id]);
 

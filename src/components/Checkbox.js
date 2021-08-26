@@ -4,10 +4,13 @@ import styled from 'styled-components/native';
 import { Divider } from 'native-base';
 import Verified from '../assets/verified.svg';
 import { ResponseContext } from '../context/ResponseContext';
+import { UserContext } from '../context/UserContext';
 import Api from '../Api';
 import Note from '../assets/note.svg';
 import Camera from '../assets/camera.svg';
 import { useNavigation } from '@react-navigation/native';
+import {Alert} from 'react-native'; 
+import ErroLog from './ErroLog';
 
 export const Container = styled.View`
   flex: 1;
@@ -78,10 +81,15 @@ export default ({ question, option, id, Modal, setTes, setResponseObject, idQues
   const [photo, setPhoto] = React.useState(false);
   const nav = useNavigation();
   const { dispatch: responseDispatch } = useContext(ResponseContext);
+  const { state: userState } = useContext(UserContext);
 
   React.useEffect(async () => {
     setResponse([]);
-    let res = await Api.GET_OPTION(id);
+    let res = await Api.GET_OPTION(id, userState.session);
+    if(res.error){
+      Alert.alert('Error',ErroLog(json.message));
+      return;
+    }
     setResponse(...response, res.data);
   }, [id]);
 

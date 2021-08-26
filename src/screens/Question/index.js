@@ -3,12 +3,13 @@ import {StatusBar, Alert} from 'react-native';
 import Checkbox from '../../components/Checkbox';
 import Radio from '../../components/Radio';
 import QuestionButton from '../../components/QuestionButton';
-import { Container, Scroller, HeaderArea, TextButton, ButtonSave, Header, HeaderText } from './styled';
+import { Container, Scroller, TextButton, ButtonSave, Header, HeaderText } from './styled';
 import { Divider } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import Api from '../../Api';
 import Loading from '../../components/Loading';
 import { ResponseContext } from '../../context/ResponseContext';
+import { UserContext } from '../../context/UserContext';
 import InputCPF from '../../components/InputCPF';
 import ModalNote from '../../components/Modal/ModalNote';
 import ModalCPF from '../../components/Modal/ModalCPF';
@@ -25,6 +26,7 @@ export default ({ route, navigation }) => {
   // const [res, setRes] = useState([]);
   const [tes, setTes] = useState(false);
   const { state: responseState, dispatch: responseDispatch } = useContext(ResponseContext);
+  const { state: userState } = useContext(UserContext);
   const Modal = useRef(null);
   const CPFModal = useRef(null);
   const[text, setText] = useState();
@@ -75,7 +77,7 @@ export default ({ route, navigation }) => {
     setData([])
     setText('Carregando...')
     setLoading(true)
-    let res = await Api.GET_QUESTIONS(parseInt(route.params.item.id));
+    let res = await Api.GET_QUESTIONS(parseInt(route.params.item.id), userState.session);
     if(!res.error){
       setData(res.data)
       setLoading(false)

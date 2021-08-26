@@ -4,6 +4,9 @@ import { Divider } from 'native-base';
 import Api from '../Api';
 import AddCircle from '../assets/addCircle.svg';
 import { ResponseContext } from '../context/ResponseContext';
+import { UserContext } from '../context/UserContext';
+import {Alert} from 'react-native'; 
+import ErroLog from './ErroLog';
 
 //  const Container = styled.View`
 //   flex: 1;
@@ -81,11 +84,16 @@ export default ({ question, id, setIdQuestion, idQuestion, CPFModal }) => {
   const [valueCPF, setValueCPF] = React.useState('');
   const [response, setResponse] = React.useState('');
   const{dispatch: responseDispatch}= useContext(ResponseContext);
+  const{state: userState}= useContext(UserContext);
 
 
   React.useEffect(async () => {
     setResponse([]);
-    let res = await Api.GET_OPTION(id);
+    let res = await Api.GET_OPTION(id, userState.session);
+    if(res.error){
+      Alert.alert('Error',ErroLog(json.message));
+      return;
+    }
     setResponse(res.data);
   }, [id]);
 

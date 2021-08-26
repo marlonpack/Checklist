@@ -4,18 +4,26 @@ import SignatureCapture from 'react-native-signature-capture';
 import { useNavigation } from '@react-navigation/native';
 import { Divider } from 'native-base';
 import { ResponseContext } from '../context/ResponseContext';
+import { UserContext } from '../context/UserContext';
 import Api from '../Api';
+import {Alert} from 'react-native'; 
+import ErroLog from './ErroLog';
 
 
 export default ({ navigation,  id, question }) => {
   const sign = useRef(null);
   const nav = useNavigation();
   const { dispatch: responseDispatch} = useContext(ResponseContext);
+  const { state: userState } = useContext(UserContext);
   const [response, setResponse] = React.useState('');
 
   React.useEffect(async () => {
     setResponse([]);
-      let res = await Api.GET_OPTION(id);
+      let res = await Api.GET_OPTION(id, userState.session);
+      if(res.error){
+        Alert.alert('Error',ErroLog(json.message));
+        return;
+      }
       setResponse(res.data);
   }, [id]);
 

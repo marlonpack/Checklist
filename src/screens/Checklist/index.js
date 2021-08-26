@@ -39,7 +39,7 @@ export default ({navigation}) => {
 
   useEffect(async () => {
     setLoading(true)
-    let res = await Api.GET_CHECKLIST_ALL(parseInt(state.userId))
+    let res = await Api.GET_CHECKLIST_ALL(parseInt(state.userId), state.session)
     if (!res["error"]) {
       useChecklistDate(res.data)
     } else {

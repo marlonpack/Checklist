@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import { View, StatusBar } from 'react-native';
 import { Container, HeaderArea, SearchArea, ListArea, Scroller, TextLogo, Input, ButtonSearch } from './styled';
 import { RefreshControl } from 'react-native';
-// import Input from '../../components/Input';
 import TableItem from '../../components/TableItem';
 import SearchIcon from '../../assets/search';
 import { UserContext } from '../../context/UserContext';
@@ -45,7 +44,8 @@ export default ({navigation}) => {
 
   useEffect(async () => {
     setLoading(true)
-    let res = await Api.GET_CHECKLIST_HOME(parseInt(state.userId))
+    let res = await Api.GET_CHECKLIST_HOME(parseInt(state.userId), state.session)
+    
     if (!res["error"]) {
       useChecklistDate(res.data)
     } else {

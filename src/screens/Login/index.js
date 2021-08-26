@@ -109,7 +109,7 @@ export default () => {
     <Container>
       <Image style={{ width:100, height:100}}source={require('../../assets/logo.png')}  />
       {loading && <Loading text={text}/>}
-      <LogoArea>Checklist pegpese</LogoArea>
+      <LogoArea>Checklist PegPese</LogoArea>
       <InputArea>
         <Input IconSvg={PersonIcon} placeholder="digite seu login" value={userField} onChangeText={t => setUserField(t)} />
         <Input IconSvg={LockIcon} placeholder="digite sua senha" value={passwordField} onChangeText={t => setPasswordField(t)} password={true} />
