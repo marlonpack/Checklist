@@ -20,6 +20,10 @@ target 'clpp' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
+  pod 'RNFileViewer', :path => '../node_modules/react-native-file-viewer'
+
   target 'clppTests' do
     inherit! :complete
     # Pods for testing

@@ -5,15 +5,18 @@ import styled from 'styled-components';
 export const Container = styled.SafeAreaView`
   flex: 1;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
+  /* align-items: center; */
+  /* justify-content: center; */
   background-color: #F1F1F1;
-  padding: 80px;
+  /* padding: 80px; */
 `;
 
-export const Scroller = styled.ScrollView`
+export const Scroll = styled.ScrollView`
   flex: 1;
   padding: 20px;
+  border: 1px solid black;
+  margin: 5px;
+  border-radius: 8px;
 `;
 
 export const Area = styled.TouchableOpacity`
@@ -28,25 +31,22 @@ export const Area = styled.TouchableOpacity`
 `;
 
 
-export const Button = styled.TouchableOpacity`
-  background-color: #326744;
-  border-radius: 50px;
-  align-items: center;
-  justify-content: center; 
-  width: 100%;
-  height: 40px;
-  margin-bottom: 50px;
+export const Header = styled.View`
+  flex: 1;
+  flex-direction: row;
+  margin-bottom: 2px;
+  padding: 2px 12px;
+  border: 1px solid black;
+  align-items : center;
+  justify-content: space-between;
+  border-radius: 10px;
+  background-color: white;
 `;
 
-export const TextButton = styled.Text`
-  color: #FFFFFF;
-  font-size: 20px;
-`;
-
-export const CircleButton = styled.TouchableOpacity`
-  width: 31px;
-  background-color: #F95050;
-  border-radius: 50px;
-  align-items: center; 
-  justify-content: center; 
+export const SearchInput = styled.TextInput`
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 80%;
+  height: 90%;
 `;

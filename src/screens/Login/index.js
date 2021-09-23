@@ -10,6 +10,7 @@ import { UserContext } from '../../context/UserContext';
 import Loading from '../../components/Loading';
 import { Keyboard, Alert } from 'react-native';
 import ErroLog from '../../components/ErroLog';
+import {ws} from '../../components/WebSocket';
 
 
 export default () => {
@@ -67,6 +68,10 @@ export default () => {
                 userName: dataUser.data[0].name
               }
             })
+
+           
+            // console.log({id:json.data.id , name:userField});
+            // WebSocket.ONOPEN({"auth":json.data.session , "app_id":13})
 
             navigation.reset({ routes: [{ name: 'MainTab' }] })
 

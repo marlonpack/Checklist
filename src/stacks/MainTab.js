@@ -7,6 +7,7 @@ import Message from '../screens/Message';
 import Profile from '../screens/Profile';
 import CustomTabBar from '../components/CustomTabBar';
 import Question from '../screens/Question';
+import Talks from '../screens/Talks';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,5 +19,6 @@ export default ()=>(
     <Tab.Screen name="Message" component={Message}/>
     <Tab.Screen name="Profile" component={Profile}/>
     <Tab.Screen name="Question" component={Question}/>
+    {/* <Tab.Screen name="Talks" component={Talks}/> */}
   </Tab.Navigator>
 )

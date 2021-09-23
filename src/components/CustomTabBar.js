@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components/native';
 import HomeIcon from '../assets/home.svg';
 import CheckIcon from '../assets/check_box.svg';
@@ -6,7 +6,7 @@ import TodayIcon from '../assets/calendar_today.svg';
 import AccountIcon from '../assets/account_circle.svg';
 import MessageIcon from '../assets/mark_as_unread.svg';
 import { UserContext } from '../context/UserContext';
-
+import { ws } from './WebSocket';
 
 const TabArea = styled.View`
   height: 60px;
@@ -34,6 +34,9 @@ const AvatarIcon = styled.Image`
   border-radius: 12px;
 `;
 
+
+
+
 export default ({ state, navigation }) => {
 
   const { state: user } = useContext(UserContext);
@@ -43,6 +46,31 @@ export default ({ state, navigation }) => {
   }
 
 
+useEffect(() => {
+  if(ws.readyState != ws.OPEN) ws.onopen = function () { ws.send(JSON.stringify({ "auth": user.session, "app_id": 13 }));}
+}, [ws.readyState]);
+
+
+
+  // ws.onmessage = function (ev) {
+  //   console.log(JSON.stringify(ev))
+  //   console.log("message")
+  // }
+
+
+  // ws.onclose = function () {
+  //   console.log("Erro: conexao fechada");
+  // }
+
+  // ws.onopen = function () { ws.send(JSON.stringify({ "auth": user.session, "app_id": 13 })); setInterval(Ping, 10000); }
+
+
+
+
+
+  // ws.onerror = function (ev) {
+  //   console.log("Erro: " + ev);
+  // }
 
   return (
     <TabArea>

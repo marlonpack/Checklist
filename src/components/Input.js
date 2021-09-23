@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { Divider } from 'native-base';
 
+
 const InputArea = styled.View`
   width: 100%;
   height: 60px;
@@ -14,6 +15,8 @@ const InputArea = styled.View`
   margin-bottom: 15px;
   border: #000000 solid 1px;
 `;
+
+
 
 const Input = styled.TextInput`
   flex: 1;

@@ -6,6 +6,8 @@ import ChangePassword from '../screens/ChangePassword';
 // import Question from '../screens/Question';
 import Capture from '../screens/Capture';
 import Approved from '../screens/Approved';
+import Talks from '../screens/Talks';
+
 
 const Stack = createStackNavigator();
 
@@ -18,5 +20,7 @@ export default () => (
     <Stack.Screen name="MainTab" component={MainTab} />
     <Stack.Screen name="Approved" component={Approved} />
     <Stack.Screen name="Capture" component={Capture} />
+    <Stack.Screen name="Talks" component={Talks}/>
+
   </Stack.Navigator>
 )
