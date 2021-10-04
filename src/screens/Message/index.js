@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused} from '@react-navigation/native';
 import { View, Text, FlatList, TextInput } from 'react-native';
 import React, { useEffect, useContext, useState, useRef } from 'react';
 import { Container, Scroll, Header, SearchInput } from './styled';
@@ -13,7 +13,7 @@ import Person from '../../assets/person.svg';
 import ModalMessagePerson from '../../components/Modal/ModalMessagePerson';
 import {ws} from '../../components/WebSocket';
 
-export default () => {
+export default ({ navigation}) => {
   const { state: userState } = useContext(UserContext);
   const [data, setData] = useState([]);
   const [text, setText] = useState('');
@@ -22,18 +22,35 @@ export default () => {
   const [search, setSearch] = useState([]);
   const modal = useRef(null);
   const nav = useNavigation();
+  const isFocused = useIsFocused();
 
-  useEffect(async () => {
+  useEffect(() => {
+    let isActive = true;
     // console.trace()
     // nav.navigate('Talks', { item: {"description": "Hygor Azevedo Bueno", "id_user": "148", "notification": "0"} })
-    let res = await Api.GET_NOTIFY(userState.session, userState.userId);
-    if (res.error) {
-      Alert.alert('Error', ErroLog(res.message));
-      return;
+
+
+    const getUserTalksMessage = async()=>{
+      let res = await Api.GET_NOTIFY(userState.session, userState.userId);
+      
+      if (res.error) {
+        Alert.alert('Error', ErroLog(res.message));
+        return;
+      }
+
+      setData(res.data)
     }
-    console.log(res.data);
-    setData(res.data)
-  }, []);
+
+    if(isActive){
+      getUserTalksMessage();
+    }
+    
+
+    return{
+      isActive: false
+    }
+
+  }, [isFocused]);
   
 
   useEffect(async () => {
@@ -59,34 +76,25 @@ export default () => {
 
 
   ws.onmessage = function (ev) {
-    console.log(JSON.parse(ev))
-    // if (JSON.parse(ev.data.objectType) === 'message') {
-    //   getMessage(JSON.parse(ev.data))
-    // }
+    // console.log(JSON.parse(ev.data))
+    let json = JSON.parse(ev.data)
+    if (json.objectType === 'message' && navigation) {
+      getMessage(JSON.parse(ev.data))
+    }
 
   }
 
-  const getMessage = (ev) => {
-    let searchUser = [];
+  const getMessage = async(ev) => {
 
-    for (let i = 0; i < allUsers.length; i++) {
-      if ((allUsers[i].id) == ev.user) {
-        searchUser.unshift (
-        {
-          "id_user": allUsers[i].id,
-          "description": allUsers[i].user,
-          "notification": 1
-        })
-      } else {
-        searchUser.push({
-          "id_user": allUsers[i].id,
-          "description": allUsers[i].user,
-          "notification": allUsers[i].notification
-        })
-      }
+    let res = await Api.GET_NOTIFY(userState.session, userState.userId);
+
+    // setData('')
+    if (res.error) {
+      Alert.alert('Error', ErroLog(res.message));
+      return;
     }
-    setAllUsers(searchUser);
-    // setSearch([...searchUser,...search])
+    // console.log(res.data);
+    setData(res.data)
   }
 
   const handleClickSearch = async () => {
@@ -107,7 +115,7 @@ export default () => {
 
 
   const handleClickTalks = item => {
-    // console.log(item)
+    console.log(item)
 
     nav.navigate('Talks', { item: item })
  
@@ -123,11 +131,11 @@ export default () => {
           <Person width='30px' height='30px' onPress={handleClickPerson} />
         </Header>
         {!changeSearches ?
-          data && data.map((item, key) =>
+          data?.map((item, key) =>
             <UsersMessage data={item} key={key} onPress={() => handleClickTalks(item)} />
           )
           :
-          search && search.map((item, key) =>
+           search?.map((item, key) =>
             <UsersMessage data={item} key={key} onPress={() => handleClickTalks(item)} />
           )}
       </Scroll>

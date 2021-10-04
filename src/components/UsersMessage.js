@@ -45,21 +45,37 @@ export default ({ data, onPress }) => {
   const [photo, setPhoto] = useState('');
 
   useEffect(async () => {
+    let isActive = true;
+
+    const getUserTalksMessage = async()=>{
     if (data.id_user) {
+      setPhoto('')
       let userPhoto = await Api.USER_PHOTO(userState.session, data.id_user)
       if (userPhoto.error) {
         Alert.alert('Error', ErroLog(userPhoto.message));
         return;
       }
+
+
       setPhoto(userPhoto.photo);
     }
+  }
+
+  
+  if (isActive){
+    getUserTalksMessage()
+  }
+
+
+  return isActive= false;
+
   }, [data]);
 
 
   return (
     <Area onPress={onPress}>
       <LeftView >
-        <AvatarIcon source={{ uri: 'data:image/png;base64,' + photo }} />
+        <AvatarIcon source={{ uri: "data:image/"+/^[a-z]/+";base64," + photo }} />
         <UserName >{data.description}</UserName>
       </LeftView>
       {data.notification==1 ?

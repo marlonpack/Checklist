@@ -7,7 +7,7 @@ import Message from '../screens/Message';
 import Profile from '../screens/Profile';
 import CustomTabBar from '../components/CustomTabBar';
 import Question from '../screens/Question';
-import Talks from '../screens/Talks';
+// import Talks from '../screens/Talks';
 
 const Tab = createBottomTabNavigator();
 

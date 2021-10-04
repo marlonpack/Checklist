@@ -27,62 +27,103 @@ import Clip from '../../assets/clip.svg';
 import {UserContext} from '../../context/UserContext';
 import Loading from '../../components/Loading';
 import {ws} from '../../components/WebSocket';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 
-
-export default ({route}) => {
+export default ({route, navigation}) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState('');
   const [textSend, setTextSend] = useState('');
+  const [load, setLoad] = useState(true);
   const [totalPage, setTotalPage] = React.useState(2);
   const {state: userState} = useContext(UserContext);
-  const [load, setLoad] = useState(true);
   const scrollRef = useRef(null);
   const nav = useNavigation();
+  const isFocused = useIsFocused();
 
-  useEffect(async () => {
-    let userPhoto = await Api.USER_PHOTO(
-      userState.session,
-      route.params.item.id_user,
-    );
-    // console.log(userPhoto);
-    if (userPhoto.error) {
-      Alert.alert('Error', ErroLog(userPhoto.message));
-      return;
-    }
-    setPhoto(userPhoto.photo);
+  useEffect(() => {
+    let isActive = true;
+    setLoading(true)
 
-    loadMessage();
+
+    const getPhotoUser = async () => {
+      setLoading(true)
+
+      const abortController = new AbortController();
+
+      let userPhoto = await Api.USER_PHOTO(
+        userState.session,
+        route.params.item.id_user,
+        abortController.signal
+      );
+      if (userPhoto.error) {
+        Alert.alert('Error', ErroLog(userPhoto.message));
+        return;
+      }
+      
+      if(isActive){
+        console.log(userPhoto.photo);
+        setPhoto(userPhoto.photo);
+        
+      }
+      
+      
+      return [abortController.abort(), setLoading(false), setPhoto(userPhoto.photo)];
+    };
+    
+    // while (page != 1 || totalPage != 2 || data.length != 0) {
+      //   return [setPage(1), setTotalPage(2), setData([])];
+      // }
+      console.log(isActive)
+      
+      if(isActive) {
+        getPhotoUser();
+      }
+      
+      
+      const unsubscribe = navigation.addListener('focus', () => {
+       
+        loadMessage();
+    });
+
+    return ()=>
+      isActive = false,
+      setLoading(false),
+      unsubscribe
+    ;
 
     // scrollRef.current.scrollTo({x:0, y:0, animated:true});
 
-    // navigation.addListener('focus', () => {
-    //   setLoad(!load)
-    // })
-  }, [route.params.item]);
 
-  // useEffect(async () => {
-  //   console.log('total page ak', totalPage, page, load)
-  // },[])
+  }, [ navigation]);
+
+
 
   ws.onmessage = function (ev) {
-    console.log(JSON.stringify(ev));
-    if (ev.data.objectType === 'message') {
-      getMessage(ev.data);
+    let object = JSON.parse(ev.data)
+        
+    if (
+      object.objectType === 'message' &&
+      navigation &&
+      object.send_user == route.params.item.id_user
+      ) {
+      getMessage(JSON.parse(ev.data));
     }
   };
 
   const getMessage = ev => {
-    if (ev.user == route.params.item.id_user) {
-      setData([ev.message, ...data]);
-      ws.send(JSON.stringify({type: 3, send_id: route.params.item.id_user}));
-    }
+    setData([ev.message, ...data]);
+    ws.send(JSON.stringify({type: 3, send_id: route.params.item.id_user}));
   };
+
+
+
 
   const loadMessage = async () => {
     if (loading) return;
+    let isActive = true;
+    const abortController = new AbortController();
 
     console.log('total page', totalPage, page, load, route.params.item);
 
@@ -95,6 +136,7 @@ export default ({route}) => {
       page,
       route.params.item.id_user,
       userState.userId,
+      abortController.signal
     );
 
     // console.log('aa', userState.session, page, route.params.item.id_user, userState.userId)
@@ -103,50 +145,41 @@ export default ({route}) => {
       setLoading(false);
       return;
     }
+   
+      if(isActive){
+      setTotalPage(response.pages);
+      response.pages >= page && setPage(page + 1);
+      setData([...data, ...response.data]);
+      // scrollRef.current.scrollTo({ x: 0, y: 1000 })
+      ws.send(JSON.stringify({type: 3, send_id: route.params.item.id_user}));
+      // console.log( scrollRef.current)
+      setLoading(false);
+    }
 
-    setTotalPage(response.pages);
 
-    // let unique = [];
-    // unique.length = 0;
-    // for (let i = response.data.length; i >= 0; --i) {
-    //   if (response.data[i] && !data.some(el => el.id === response.data[i].id))
-    //     unique.push(response.data[i]);
-    // }
-    // console.log(unique)
-    // console.log('res', response.pages, page)
+    return [
+      isActive= false,
+      abortController.abort()
+    ];
 
-    response.pages >= page && setPage(page + 1);
-    setData([...data, ...response.data]);
-    // scrollRef.current.scrollTo({ x: 0, y: 1000 })
-    ws.send(JSON.stringify({type: 3, send_id: route.params.item.id_user}));
-    // console.log( scrollRef.current)
-
-    setLoading(false);
     // scrollRef.current.scrollToEnd({ animated: true })
     // scrollRef.current.scrollToEnd({ animated: true });
   };
 
-  //
-  //post new message
-  //
-  const handleClickToBack = () => {
-    if (page != 1 || totalPage != 2 || data.length != 0) {
-      setLoading(true);
-      setPage(1);
-      setTotalPage(2);
-      setData([]);
 
-      return [
-        setPage(1),
-        setTotalPage(2),
-        setData([]),
-        setLoading(false),
-        nav.navigate('Message'),
-      ];
-    }
-    nav.navigate('Message');
-    setLoading(false);
+
+
+
+
+  const NavPhoto = () => {
+    nav.navigate('Capture', {
+      type: 2,
+      id_send: route.params.item.id_user,
+      session: userState.session,
+      id_user: userState.userId,
+    });
   };
+
 
   const HandleClickSend = async () => {
     const response = await Api.POST_MESSAGE(
@@ -159,11 +192,13 @@ export default ({route}) => {
       userState.session,
     );
 
+
     console.log(response);
     if (response.error) {
       console.log(response.message);
       return;
     }
+
     let createData = {
       id: response.last_id,
       id_user: userState.userId,
@@ -171,6 +206,8 @@ export default ({route}) => {
       notification: 1,
       type: '1',
     };
+
+
 
     setTextSend('');
     setData([createData, ...data]);
@@ -185,11 +222,14 @@ export default ({route}) => {
     // scrollRef.current.scrollTo({x:0, y:500});
   };
 
+
+
+
   return (
     <Container>
       {loading && <Loading text={'text'} />}
       <Header>
-        <ButtonNavigate onPress={handleClickToBack}>
+        <ButtonNavigate onPress={()=>nav.goBack()}>
           <ButtonBeforeMessage>{'<'}</ButtonBeforeMessage>
         </ButtonNavigate>
         <AvatarIcon source={{uri: 'data:image/png;base64,' + photo}} />
@@ -258,20 +298,14 @@ export default ({route}) => {
       </Scroll>
 
       <Footer>
-        {/* <FabGroup style={{ bottom: 100, left: 0 }}/> */}
-        <Clip
-          width="24"
-          height="24"
-          onPress={}
-        />
+        <Clip width="24" height="24" onPress={NavPhoto} />
         <SenderInput
           placeholder="digite aqui"
           onChangeText={t => setTextSend(t)}
           value={textSend}
         />
-        <Sender width="24" height="24" onPress={} />
+        <Sender width="24" height="24" onPress={HandleClickSend} />
       </Footer>
     </Container>
   );
 };
-
